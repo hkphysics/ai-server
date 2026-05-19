@@ -9,7 +9,6 @@ jupytext
 # a timeout on startup
 jupyter-ai
 jupyter-server-mcp
-langchain-ollama
 
 # This can causes freezes
 jupyter-collaboration
@@ -27,11 +26,20 @@ ipympl
 git+https://github.com/hkphysics/uniswappy.git
 nb-clean
 voila
-tensorboard
-jupyterlab-tensorboard-pro
+#tensorboard
+#jupyterlab-tensorboard-pro
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch
 torchvision
 torchaudio
 jupyter_ai_jupyternaut
 jupyter_ai_chat_commands
+
+langchain
+langgraph
+langsmith
+langchain-ollama
+langchain-openrouter
+langclaw
+langchain-community
+dotenv

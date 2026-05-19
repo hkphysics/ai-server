@@ -25,7 +25,18 @@ set_error() {
 
 # Check if running as superuser
 [ $EUID -ne 0 ] && set_error "Error: This script must be run as root"
-[ -d "/opt/tljh" ] && set_error "Error: /opt/tljh directory exists. recommend removing directory for clean install"
+if [ -d "/opt/tljh" ]; then
+  echo "Directory /opt/tljh exists. Would you like to remove it? (yes/no)"
+  read -r response
+  if [[ $response =~ ^[Yy]es$ ]]; then
+    echo -n "Removing /opt/tljh ..."
+    rm -rf "/opt/tljh"
+    echo " done"
+  else
+    echo "Exiting without removing /opt/tljh."
+    exit 0
+  fi
+fi
 [ ! -f "config.yaml" ] && set_error "Error: config.yaml does not exist"
 
 # If any errors were found, exit
@@ -41,6 +52,7 @@ fi
 echo "All checks passed. Continuing with script..."
 
 systemctl stop caddy
+systemctl stop jupyterhub
 apt install python3 python3-dev git curl npm texlive texlive-fonts-extra texlive-science texlive-bibtex-extra biber
 python3  ./bootstrap.py
 cp config.yaml /opt/tljh/config
