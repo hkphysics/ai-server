@@ -7,8 +7,7 @@ jupytext
 
 # installing all jupyter-ai models will cause
 # a timeout on startup
-jupyter-ai
-jupyter-server-mcp
+jupyterlite-ai[jupyter]
 
 # This can causes freezes
 jupyter-collaboration
@@ -32,8 +31,6 @@ voila
 torch
 torchvision
 torchaudio
-jupyter_ai_jupyternaut
-jupyter_ai_chat_commands
 
 langchain
 langgraph
@@ -42,4 +39,5 @@ langchain-ollama
 langchain-openrouter
 langclaw
 langchain-community
+deepagents
 dotenv

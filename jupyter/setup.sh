@@ -1,14 +1,6 @@
 #!/bin/bash
 set -e
 
-#This turns out to be complicated since you have to make this work with
-#local proxies.
-
-# also consider removing the directory /opt/tljh before starting
-# this clears out all of the old state. 
-
-#Need to shut down caddy since installation requires
-#port 80
 
 # Initialize error counter
 errors=0
@@ -25,6 +17,18 @@ set_error() {
 
 # Check if running as superuser
 [ $EUID -ne 0 ] && set_error "Error: This script must be run as root"
+[ ! -f "config.yaml" ] && set_error "Error: config.yaml does not exist"
+
+# Semaphore to prevent multiple instances from running
+LOCK_FILE="/tmp/setup.sh.lock"
+[ $EUID -eq 0 ] && { exec 200>"$LOCK_FILE" && flock -n 200 || { set_error "Error: Another instance is running"; }; }
+
+# If any errors were found, exit
+if [[ $errors -gt 0 ]]; then
+   echo "Errors found: $errors"
+   exit 1
+fi
+
 if [ -d "/opt/tljh" ]; then
   echo "Directory /opt/tljh exists. Would you like to remove it? (yes/no)"
   read -r response
@@ -37,16 +41,6 @@ if [ -d "/opt/tljh" ]; then
     exit 0
   fi
 fi
-[ ! -f "config.yaml" ] && set_error "Error: config.yaml does not exist"
-
-# If any errors were found, exit
-if [[ $errors -gt 0 ]]; then
-   echo "Errors found: $errors"
-   exit 1
-fi
-
-
-
 
 # If we reach here, all checks passed
 echo "All checks passed. Continuing with script..."
@@ -70,6 +64,8 @@ tljh-config set https.enabled false
 tljh-config reload proxy
 tljh-config reload
 
+systemctl stop traefik
+systemctl disable traefik
 systemctl start caddy
 systemctl restart jupyterhub
 
