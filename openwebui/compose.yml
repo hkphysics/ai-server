@@ -16,7 +16,6 @@ services:
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
     
   hermes:
-    image: nousresearch/hermes-agent:${HERMES_TAG-latest}
     build:
       context: .
       dockerfile: Dockerfile.hermes
@@ -38,7 +37,6 @@ services:
     pull_policy: always
 
   openclaw:
-    image: ghcr.io/openclaw/openclaw:${OPENCLAW_TAG-latest}
     build:
       context: .
       dockerfile: Dockerfile.openclaw
@@ -46,8 +44,8 @@ services:
       secrets:
         - clawhub_api_key
       args:
-        - CLAWHUB_API_KEY=${CLAWHUB_API_KEY}
         - OPENCLAW_TAG=${OPENCLAW_TAG-latest}
+
     restart: always
     pull_policy: always
     environment:
@@ -97,3 +95,4 @@ volumes:
 secrets:
   clawhub_api_key:
     environment: "CLAWHUB_API_KEY"
+

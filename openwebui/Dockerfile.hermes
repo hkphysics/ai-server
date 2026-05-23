@@ -1,6 +1,8 @@
 ARG HERMES_TAG=latest
 FROM nousresearch/hermes-agent:${HERMES_TAG}
-RUN apt-get install -y  --no-install-recommends curl python3-pip && \
+COPY --chmod=775 hermes-config.sh hermes-config.sh
+RUN apt-get update && \
+   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl python3-pip && \
+   ./hermes-config.sh && \
    apt-get clean && \
-   npx playwright install chromium && \
-   rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /usr/lib/python3.*/EXTERNALLY-MANAGED /root/.cache
+   rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /usr/lib/python3.*/EXTERNALLY-MANAGED /root/.cache 

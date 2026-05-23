@@ -2,9 +2,8 @@ ARG OPENCLAW_TAG=latest
 FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 
 USER root
-
 RUN umask 0000 && apt-get update && \
-   apt-get install -y  --no-install-recommends \
+   DEBIAN_FRONTEND=noninteractive apt-get install -y  --no-install-recommends \
        build-essential python3-requests python3-pip \
        chromium-headless-shell jq tmux ffmpeg unzip && \
    mkdir -p /home/linuxbrew/.linuxbrew && \
@@ -17,6 +16,7 @@ RUN umask 0000 && apt-get update && \
 USER node
 COPY --chmod=775 --chown=node:node openclaw-config.sh /home/node/openclaw-config.sh
 RUN --mount=type=secret,id=clawhub_api_key,uid=1000 \
-    CLAWHUB_API_KEY=$(cat /run/secrets/clawhub_api_key) /home/node/openclaw-config.sh
+    CLAWHUB_API_KEY=$(cat /run/secrets/clawhub_api_key) \
+    /home/node/openclaw-config.sh
 
 

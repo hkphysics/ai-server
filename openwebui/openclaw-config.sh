@@ -6,7 +6,8 @@ export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew install gcc gh steipete/tap/goplaces gogcli \
+brew install gcc gh gogcli \
+    openclaw/tap/goplaces \
    steipete/tap/gifgrep himalaya \
    steipete/tap/spogo \
    steipete/tap/songsee
@@ -127,30 +128,6 @@ openclaw config set --batch-json '[
 {"path": "browser.executablePath", "value": "/usr/bin/chromium-headless-shell"}
 ]'
 
-modules=(
-    "weather"
-    "multi-search-engine"
-    "word-docx"
-    "powerpoint-pptx"
-    "excel-xlsx"
-    "google-maps"
-    "ontology"
-    "playwright-mcp"
-    "x-search"
-    "self-improving-agent"
-    "realtime-crypto-price-api"
-    "goplaces"
-    "google-maps"
-    "baidu"
-    "data-analysis"
-    "image"
-    "productivity"
-    "skill-vetter"
-    "zhipu-web-search"
-    "baidu-ai-map"
-    "annas-archive"
-    "zotero"
-)
 
 install_module() {
     local module_name=$1
@@ -206,9 +183,53 @@ install_module() {
     pnpm dlx clawhub login --token $CLAWHUB_API_KEY
 }
 
+modules=(
+    "weather"
+    "multi-search-engine"
+    "word-docx"
+    "powerpoint-pptx"
+    "excel-xlsx"
+    "google-maps"
+    "ontology"
+    "playwright-mcp"
+    "x-search"
+    "self-improving-agent"
+    "realtime-crypto-price-api"
+    "goplaces"
+    "google-maps"
+    "baidu"
+    "data-analysis"
+    "image"
+    "productivity"
+    "skill-vetter"
+    "zhipu-web-search"
+    "baidu-ai-map"
+    "annas-archive"
+    "zotero"
+)
+
 for module in "${modules[@]}"; do
-    rm -rf "${module##*/}"
     install_module "openclaw skills install --force ${module}" "5"
+done
+
+declare -A gh_modules
+gh_modules["hkphysics/scientific-agent-skills"]="aeon\
+ astropy \
+ citation-management \
+ hugging-science \
+ seaborn \
+ simpy \
+ statsmodels \
+ sympy"
+
+cd /app
+for key in "${!gh_modules[@]}"; do
+    module_list="${gh_modules[$key]}"
+    for module in $module_list; do
+	install_module "npx -y skills add -y https://github.com/${key}/tree/main/skills/${module}" "5"
+	rm -f skills/${module}
+	mv .agents/skills/${module} skills
+    done
 done
 
 openclaw skills update --all
