@@ -2,22 +2,29 @@ ARG OPENCLAW_TAG=latest
 FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 
 USER root
-RUN umask 0000 && apt-get update && \
+RUN --mount=type=tmpfs,destination=/tmp \
+    --mount=type=tmpfs,destination=/var/tmp \
+   apt-get update && \
    DEBIAN_FRONTEND=noninteractive apt-get install -y  --no-install-recommends \
        build-essential python3-requests python3-pip \
        chromium-headless-shell jq tmux ffmpeg unzip && \
    mkdir -p /home/linuxbrew/.linuxbrew && \
    chmod a+rwX -R /home/linuxbrew && \
-   chmod a+rwX -R /home/node && \
+   chown node:node -R /home/node && \
    apt-get clean && \
    apt-get autoremove && \
-   rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+   rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
 USER node
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+RUN --mount=type=tmpfs,destination=/tmp \
+    --mount=type=tmpfs,destination=/var/tmp \
+   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
    /home/linuxbrew/.linuxbrew/bin/brew install gh gogcli
 COPY --chmod=775 --chown=node:node openclaw-config.sh /home/node/openclaw-config.sh
-RUN --mount=type=secret,id=clawhub_api_key,uid=1000 \
+RUN --mount=type=tmpfs,destination=/tmp \
+    --mount=type=tmpfs,destination=/var/tmp \
+    --mount=type=secret,id=clawhub_api_key,uid=1000 \
+    --mount=type=cache,target=/home/node/.npm,uid=1000 \
     CLAWHUB_API_KEY=$(cat /run/secrets/clawhub_api_key) \
     /home/node/openclaw-config.sh
 
