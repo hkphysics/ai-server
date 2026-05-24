@@ -4,17 +4,13 @@ set -e
 umask 000
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-brew install gcc gh gogcli \
+brew install \
     openclaw/tap/goplaces \
    steipete/tap/gifgrep himalaya \
    steipete/tap/spogo \
    steipete/tap/songsee
 brew install --cask 1password-cli
 brew cleanup --prune=all
-
-pnpm dlx playwright install chromium
 
 openclaw config set --json "models.providers.ollama" '{
             "baseUrl": "http://host.docker.internal:11434",
@@ -209,14 +205,21 @@ modules=(
 )
 
 for module in "${modules[@]}"; do
-    install_module "openclaw skills install --force ${module}" "5"
+    install_module "npx clawhub install --workdir /app --force ${module}" "5"
 done
 
 declare -A gh_modules
 gh_modules["hkphysics/scientific-agent-skills"]="aeon\
  astropy \
  citation-management \
+ fluidsim \
  hugging-science \
+ matplotlib \
+ markitdown \
+ pyzotero \
+ scientific-brainstorming \
+ scientific-critical-thinking \
+ scientific-visualization \
  seaborn \
  simpy \
  statsmodels \

@@ -59,7 +59,14 @@ declare -A modules
 modules["hkphysics/scientific-agent-skills"]="aeon\
  astropy \
  citation-management \
+ fluidsim \
  hugging-science \
+ matplotlib \
+ markitdown \
+ pyzotero \
+ scientific-brainstorming \
+ scientific-critical-thinking \
+ scientific-visualization \
  seaborn \
  simpy \
  statsmodels \
@@ -71,6 +78,8 @@ for key in "${!modules[@]}"; do
     module_list="${modules[$key]}"
     for module in $module_list; do
 	install_module "npx -y skills add -y https://github.com/${key}/tree/main/skills/${module}" "5"
+	rm -f skills/${module}
+	mv .agents/skills/${module} skills
     done
 done
 
