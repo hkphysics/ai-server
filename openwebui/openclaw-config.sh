@@ -3,6 +3,7 @@
 set -e
 umask 000
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 brew install \
     openclaw/tap/goplaces \
@@ -106,7 +107,7 @@ openclaw config set --json "auth" '{
         "provider": "openrouter",
         "mode": "api_key"
       }
-}
+    }
 }'
 
 openclaw config set --batch-json '[
@@ -124,60 +125,7 @@ openclaw config set --batch-json '[
 {"path": "browser.executablePath", "value": "/usr/bin/chromium-headless-shell"}
 ]'
 
-
-install_module() {
-    local module_name=$1
-    local max_retries=$2
-    local attempts=0
-    local backoff=1
-    local max_backoff=30
-    local success=false
-
-    echo "========================================================="
-    echo "--> Installing module: ${module_name}"
-
-    while [ $attempts -lt $max_retries ]; do
-        attempts=$((attempts + 1))
-        echo -e "\n[Attempt $attempts of $max_retries] "
-
-        if eval "$module_name"; then
-            success=true
-            break
-        else
-            echo "FAILURE: Installation failed for module $module_name (Exit code: $?)"
-
-            if [ $attempts -eq $max_retries ]; then
-                echo "No more retries available."
-                break
-            fi
-
-            local sleep_time=$backoff
-            if [ $sleep_time -gt $max_backoff ]; then
-                sleep_time=$max_backoff
-            fi
-
-            echo "Waiting $sleep_time seconds before retry..."
-            sleep $sleep_time
-
-            backoff=$((backoff * 2))
-        fi
-    done
-
-    if [ "$success" = true ]; then
-        echo "SUCCESS"
-        echo "========================================================="
-        return 0
-    else
-        echo "FAILURE: Failed to install module '${module_name}' after ${max_retries} attempts."
-        echo "========================================================="
-        return 1
-    fi
-
-}
-
-[[ -n $CLAWHUB_API_KEY ]] && {
-    pnpm dlx clawhub login --token $CLAWHUB_API_KEY
-}
+source $SCRIPT_DIR/common-config.sh
 
 modules=(
     "weather"
@@ -208,40 +156,13 @@ for module in "${modules[@]}"; do
     install_module "npx clawhub install --workdir /app --force ${module}" "5"
 done
 
-declare -A gh_modules
-gh_modules["hkphysics/scientific-agent-skills"]="aeon\
- astropy \
- citation-management \
- fluidsim \
- hugging-science \
- matplotlib \
- markitdown \
- pyzotero \
- scientific-brainstorming \
- scientific-critical-thinking \
- scientific-visualization \
- seaborn \
- simpy \
- statsmodels \
- sympy"
+gh_key="hkphysics/scientific-agent-skills"
+gh_modules="aeon astropy citation-management fluidsim hugging-science matplotlib markitdown pyzotero scientific-brainstorming scientific-critical-thinking scientific-visualization seaborn simpy statsmodels sympy"
 
-cd /app
-for key in "${!gh_modules[@]}"; do
-    module_list="${gh_modules[$key]}"
-    for module in $module_list; do
-	install_module "npx skills add https://github.com/${key}/tree/main/skills/${module} -y" "5"
-	rm -f skills/${module}
-	mv .agents/skills/${module} skills
-    done
-done
-
-pip install cli-anything-hub
-npx skills add HKUDS/CLI-Anything --skill cli-hub-meta-skill -y
-rm -f skills/cli-hub-meta-skill
-mv .agents/skills/cli-hub-meta-skill skills
+install_github_modules /app "$gh_key" "$gh_modules"
+install_cli_anything /app
 
 openclaw skills update --all
-# load in npm libraries
 openclaw doctor
 npm cache clean --force
 pip cache purge

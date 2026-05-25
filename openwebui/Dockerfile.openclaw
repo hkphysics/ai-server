@@ -20,7 +20,7 @@ RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
    /home/linuxbrew/.linuxbrew/bin/brew install gh gogcli
-COPY --chmod=775 --chown=node:node openclaw-config.sh /home/node/openclaw-config.sh
+COPY --chmod=775 --chown=node:node openclaw-config.sh common-config.sh /home/node
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
     --mount=type=secret,id=clawhub_api_key,uid=1000 \

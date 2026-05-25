@@ -1,6 +1,6 @@
 ARG HERMES_TAG=latest
 FROM nousresearch/hermes-agent:${HERMES_TAG}
-COPY --chmod=775 hermes-config.sh hermes-config.sh
+COPY --chmod=775 hermes-config.sh common-config.sh .
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
    apt-get update && \
