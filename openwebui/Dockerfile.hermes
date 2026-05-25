@@ -5,6 +5,7 @@ RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
    apt-get update && \
    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl python3-pip && \
+   rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
    ./hermes-config.sh && \
    apt-get clean && \
-   rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED /var/cache/apt/* /var/lib/apt/lists/*
+   rm -rf /var/cache/apt/* /var/lib/apt/lists/*

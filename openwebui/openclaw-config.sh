@@ -229,11 +229,16 @@ cd /app
 for key in "${!gh_modules[@]}"; do
     module_list="${gh_modules[$key]}"
     for module in $module_list; do
-	install_module "npx -y skills add -y https://github.com/${key}/tree/main/skills/${module}" "5"
+	install_module "npx skills add https://github.com/${key}/tree/main/skills/${module} -y" "5"
 	rm -f skills/${module}
 	mv .agents/skills/${module} skills
     done
 done
+
+pip install cli-anything-hub
+npx skills add HKUDS/CLI-Anything --skill cli-hub-meta-skill -y
+rm -f skills/cli-hub-meta-skill
+mv .agents/skills/cli-hub-meta-skill skills
 
 openclaw skills update --all
 # load in npm libraries
