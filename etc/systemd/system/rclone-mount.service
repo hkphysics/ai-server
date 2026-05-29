@@ -1,6 +1,6 @@
 [Unit]
 Description=Rclone Mount
-AssertPathIsDirectory=/mnt/data/shared/gdrive
+AssertPathIsDirectory=/mnt/shared/gdrive
 After=network-online.target
 Wants=network-online.target
 
