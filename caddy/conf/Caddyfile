@@ -8,25 +8,14 @@
 # this machine's public IP, then replace ":80" below with your
 # domain name.
 
-ai.axc.xyz {
-  reverse_proxy * localhost:3000
+ai.hkphysics.hk {
+  reverse_proxy * host.docker.internal:3000
 }
 
-crm.axc.xyz {
-  reverse_proxy * localhost:3001
+compute.hkphysics.hk {
+  reverse_proxy * host.docker.internal:3002
 }
 
-compute.axc.xyz {
-  reverse_proxy * localhost:3002
-}
-
-docs.axc.xyz {
-  reverse_proxy * localhost:3003
-}
-
-project.axc.xyz {
-  reverse_proxy * localhost:8080
-}
 
 # Refer to the Caddy docs for more information:
 # https://caddyserver.com/docs/caddyfile
