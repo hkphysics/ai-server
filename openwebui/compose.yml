@@ -14,7 +14,18 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
-    
+
+  ollama:
+    image: cagataygurturk/docker-ssh-tunnel:latest
+    volumes:
+      # Mount your local private SSH key (read-only)
+      - ~/.ssh/id_ed25519:/root/ssh/id_ed25519:ro
+    environment:
+      LOCAL_PORT: 11434
+      REMOTE_HOST: localhost
+      REMOTE_PORT: 11434
+      TUNNEL_HOST: ${OLLAMA_HOST}
+
   hermes:
     build:
       context: .
