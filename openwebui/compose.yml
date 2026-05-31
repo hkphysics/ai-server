@@ -1,4 +1,22 @@
 services:
+  jupyter:
+    build:
+      context: ../jupyter
+    volumes:
+      - ../jupyter/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
+      - jupyter-data:/home
+      - /mnt:/mnt
+    ports:
+      - 3002:8000
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    environment:
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_OAUTH_CALLBACK_URL: ${JUPYTER_OAUTH_CALLBACK_URL}
+      ADMIN_USERS: ${ADMIN_USERS}
+      ALLOWED_USERS: ${ALLOWED_USERS}
+
   openwebui:
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
     volumes:
@@ -103,6 +121,7 @@ volumes:
   core-data:
   valkey-data:
   openclaw-data:
+  jupyter-data:
 
 secrets:
   clawhub_api_key:
