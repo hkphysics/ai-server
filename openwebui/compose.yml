@@ -42,6 +42,7 @@ services:
       REMOTE_HOST: localhost
       REMOTE_PORT: 11434
       TUNNEL_HOST: ${OLLAMA_HOST}
+    restart: always
 
   hermes:
     build:
