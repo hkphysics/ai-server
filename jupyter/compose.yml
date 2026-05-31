@@ -15,5 +15,16 @@ services:
       GOOGLE_OAUTH_CALLBACK_URL: ${GOOGLE_OAUTH_CALLBACK_URL}
       ADMIN_USERS: ${ADMIN_USERS}
       ALLOWED_USERS: ${ALLOWED_USERS}
+  ollama:
+    image: cagataygurturk/docker-ssh-tunnel:latest
+    volumes:
+      # Mount your local private SSH key (read-only)
+      - ~/.ssh/id_ed25519:/root/ssh/id_ed25519:ro
+    environment:
+      LOCAL_PORT: 11434
+      REMOTE_HOST: localhost
+      REMOTE_PORT: 11434
+      TUNNEL_HOST: ${OLLAMA_HOST}
+
 volumes:
   jupyter-data:

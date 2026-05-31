@@ -8,6 +8,8 @@ jupytext
 # installing all jupyter-ai models will cause
 # a timeout on startup
 jupyterlite-ai[jupyter]
+jupyter-ai-jupyternaut
+jupyter-ai-magic-commands
 
 # This can causes freezes
 jupyter-collaboration
