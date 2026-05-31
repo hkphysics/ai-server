@@ -2,7 +2,7 @@ services:
   jupyter:
     build: .
     volumes:
-      - ./jupyterhub_config.py:/app/jupyterhub_config.py
+      - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
       - jupyter-data:/home
       - /mnt:/mnt
     ports:
@@ -19,7 +19,7 @@ services:
     image: cagataygurturk/docker-ssh-tunnel:latest
     volumes:
       # Mount your local private SSH key (read-only)
-      - ~/.ssh/id_ed25519:/root/ssh/id_ed25519:ro
+      - ~/.ssh:/root/ssh:ro
     environment:
       LOCAL_PORT: 11434
       REMOTE_HOST: localhost

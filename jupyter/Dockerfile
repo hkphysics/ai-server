@@ -1,8 +1,43 @@
-ARG BASE_IMAGE=jupyterhub/jupyterhub
+ARG BASE_IMAGE=python:3.14.5-trixie
 FROM $BASE_IMAGE
-WORKDIR /app
-RUN  apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+USER root
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+ && apt-get install -yq --no-install-recommends \
+    ca-certificates \
+    curl \
+    gnupg \
+    locales \
+    python3-pip \
+    python3-pycurl \
+    nodejs \
+    npm
+
+ENV SHELL=/bin/bash
+
+#RUN  locale-gen $LC_ALL
+
+# always make sure pip is up to date!
+RUN python3 -m pip install --no-cache --upgrade setuptools pip
+
+RUN npm install -g configurable-http-proxy@^4.2.0 \
+ && rm -rf ~/.npm
+
+RUN python3 -m pip install --no-cache jupyterhub
+
+RUN mkdir -p /srv/jupyterhub/
+WORKDIR /srv/jupyterhub/
+
+EXPOSE 8000
+
+LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
+LABEL org.jupyter.service="jupyterhub"
+
+CMD ["jupyterhub"]
+
+RUN  apt-get install -yq --no-install-recommends \
     python3-dev git curl npm texlive texlive-fonts-extra texlive-science texlive-bibtex-extra biber && \
        rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
        apt-get clean && \
@@ -11,5 +46,4 @@ RUN  apt-get update && \
        ln -s /mnt/shared shared && \
    rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 COPY requirements.txt .
-RUN pip install oauthenticator
 RUN pip install -r requirements.txt

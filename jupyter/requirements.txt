@@ -4,13 +4,18 @@ jupyterlab-latex
 jupyterlab-spreadsheet-editor
 jupyter-archive
 jupytext
+oauthenticator
 
 # installing all jupyter-ai models will cause
 # a timeout on startup
 jupyterlite-ai[jupyter]
 jupyter-ai-jupyternaut
 jupyter-ai-magic-commands
-
+jupyter-ai-router
+jupyter-ai-persona-manager
+jupyter-ai-tools
+jupyter-ai-litellm
+jupyter-server-mcp
 # This can causes freezes
 jupyter-collaboration
 lckr-jupyterlab-variableinspector
