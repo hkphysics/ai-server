@@ -32,7 +32,6 @@ WORKDIR /srv/jupyterhub/
 
 EXPOSE 8000
 
-LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 LABEL org.jupyter.service="jupyterhub"
 
 CMD ["jupyterhub"]
