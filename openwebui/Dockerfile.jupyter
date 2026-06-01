@@ -14,7 +14,7 @@ RUN apt-get update \
     python3-pycurl \
     nodejs \
     npm \
-    python3-dev git curl texlive texlive-fonts-extra texlive-science texlive-bibtex-extra biber && \
+    python3-dev git curl texlive texlive-fonts-extra texlive-science texlive-bibtex-extra biber less neovim && \
     apt-get clean && rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
    rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 

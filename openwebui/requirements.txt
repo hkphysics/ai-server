@@ -48,3 +48,10 @@ langclaw
 langchain-community
 deepagents
 dotenv
+nbstripout
+ipywidgets
+ipyleaflet
+ipydatagrid
+pymc
+ray
+dask
