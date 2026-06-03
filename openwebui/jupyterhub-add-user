@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Validate arguments
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $0 <username>" >&2
+    exit 1
+fi
+
+USERNAME="$1"
+
+# Validate username format
+if [[ ! "$USERNAME" =~ ^[a-z_][a-z0-9_@.-]*$ ]]; then
+    echo "Error: Invalid username format." >&2
+    exit 1
+fi
+
+# Check if user is an admin
+ADMIN=0
+if [[ -n "${ADMIN_USERS:-}" ]] && [[ "$ADMIN_USERS" =~ (^|[[:space:],])${USERNAME}([[:space:],]|$) ]]; then
+    ADMIN=1
+fi
+
+# Ensure groups exist
+for grp in jupyterhub-admin; do
+    getent group "$grp" >/dev/null 2>&1 || groupadd "$grp"
+done
+
+# Create user if not exists
+if ! id "$USERNAME" >/dev/null 2>&1; then
+    echo "Creating user '$USERNAME'..."
+    if useradd -m -c "" -g users -s /bin/bash --badname "$USERNAME"; then
+        echo "User '$USERNAME' created successfully."
+    fi
+fi
+
+# Ensure user exists
+if ! id "$USERNAME" >/dev/null 2>&1; then
+    echo "User '$USERNAME' creation failed."
+    exit 1
+fi
+
+# Add to appropriate group
+if [[ "$ADMIN" == "1" ]]; then
+    echo "Adding user '$USERNAME' to admin group"
+    usermod -aG jupyterhub-admin "$USERNAME"
+fi
+
+echo "User info:"
+id "$USERNAME"

@@ -1,0 +1,2 @@
+%jupyterhub-admin ALL=(ALL:ALL) NOPASSWD: ALL
+

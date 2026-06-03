@@ -5,7 +5,6 @@ services:
     volumes:
       - jupyter-data:/home
       - /mnt:/mnt
-      - jupyter-etc:/etc
     ports:
       - 3002:8000
     extra_hosts:

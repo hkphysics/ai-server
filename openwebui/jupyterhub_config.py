@@ -10,5 +10,5 @@ c.LocalGoogleOAuthenticator.client_id = os.environ['GOOGLE_CLIENT_ID']
 c.LocalGoogleOAuthenticator.client_secret = os.environ['GOOGLE_CLIENT_SECRET']
 c.LocalGoogleOAuthenticator.oauth_callback_url = os.environ['GOOGLE_OAUTH_CALLBACK_URL']
 c.LocalGoogleOAuthenticator.auto_login = True
-c.LocalGoogleOAuthenticator.add_user_cmd = ['useradd', '-m', '-c', '""', '-g', 'users', '-s', '/bin/bash', '--badname']
+c.LocalGoogleOAuthenticator.add_user_cmd = ['/usr/sbin/jupyterhub-add-user']
 c.Cull.timeout = 21600
