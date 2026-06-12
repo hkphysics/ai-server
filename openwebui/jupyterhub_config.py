@@ -12,3 +12,6 @@ c.LocalGoogleOAuthenticator.oauth_callback_url = os.environ['GOOGLE_OAUTH_CALLBA
 c.LocalGoogleOAuthenticator.auto_login = True
 c.LocalGoogleOAuthenticator.add_user_cmd = ['/usr/sbin/jupyterhub-add-user']
 c.Cull.timeout = 21600
+c.Spawner.start_timeout = 120
+c.Spawner.http_timeout = 60
+

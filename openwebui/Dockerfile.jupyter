@@ -13,13 +13,9 @@ RUN --mount=type=tmpfs,destination=/tmp \
         curl \
         gnupg \
         locales \
-        python3-venv \
-        python3-pip \
-        python3-pycurl \
         nodejs \
         npm \
         sudo \
-        python3-dev \
         git \
         texlive \
         texlive-fonts-extra \
@@ -36,13 +32,25 @@ COPY requirements.txt .
 
 ENV SHELL=/bin/bash
 
-RUN pip install --no-cache --upgrade pip uv && \
+RUN pip install --no-cache --upgrade pip uv pycurl && \
     pip install --no-cache jupyterhub -r requirements.txt && \
     pip install --no-cache torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
     pip cache purge
 
 RUN npm install -g --omit=dev configurable-http-proxy@^4.2.0 opencode-ai && \
+   npm install -g  --save-dev  \
+    bash-language-server \
+    dockerfile-language-server-nodejs \
+    pyright \
+    sql-language-server \
+    typescript-language-server \
+    unified-language-server \
+    vscode-css-languageserver-bin \
+    vscode-html-languageserver-bin \
+    vscode-json-languageserver-bin \
+    yaml-language-server && \
     rm -rf ~/.npm
+
 
 COPY --from=ghcr.io/typst/typst:latest /bin/typst /usr/bin/typst
 

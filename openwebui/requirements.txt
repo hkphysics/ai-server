@@ -15,6 +15,7 @@ jupyter-ai-router
 jupyter-ai-persona-manager
 jupyter-ai-tools
 jupyter-ai-litellm
+jupyterlab-magic-wand
 jupyter-server-mcp
 # This can causes freezes
 jupyter-collaboration
@@ -51,3 +52,8 @@ ipydatagrid
 pymc
 dask
 ray
+jupyterlab_iframe
+graphifyy
+jupyterlab-lsp
+python-lsp-server[all]
+runcell
