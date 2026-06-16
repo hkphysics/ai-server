@@ -43,6 +43,8 @@ services:
       REMOTE_PORT: 11434
       TUNNEL_HOST: ${OLLAMA_HOST}
     restart: always
+    ports:
+      - 11434:11434
 
   hermes:
     build:
@@ -74,7 +76,6 @@ services:
         - clawhub_api_key
       args:
         - OPENCLAW_TAG=${OPENCLAW_TAG-latest}
-
     restart: always
     pull_policy: always
     environment:
