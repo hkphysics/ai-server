@@ -14,4 +14,5 @@ c.LocalGoogleOAuthenticator.add_user_cmd = ['/usr/sbin/jupyterhub-add-user']
 c.Cull.timeout = 21600
 c.Spawner.start_timeout = 120
 c.Spawner.http_timeout = 60
+c.OutputProcessor.use_outputs_service = True
 

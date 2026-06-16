@@ -7,6 +7,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
+    --mount=type=cache,target=/var/cache,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    curl -fsSL https://deb.nodesource.com/setup_current.x | bash -E - && \
     apt-get update && \
     apt-get install -yq --no-install-recommends \
         ca-certificates \
@@ -25,20 +28,21 @@ RUN --mount=type=tmpfs,destination=/tmp \
         less \
         neovim && \
     apt-get clean && \
-    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
-    rm -rf /var/cache/apt/* /var/lib/apt/lists/*
+    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
 
 COPY requirements.txt .
 
 ENV SHELL=/bin/bash
 
-RUN pip install --no-cache --upgrade pip uv pycurl && \
-    pip install --no-cache jupyterhub -r requirements.txt && \
+RUN  --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+    pip install --no-cache --upgrade pip uv pycurl && \
+    uv pip install --system --no-cache --prerelease=allow jupyterhub -r requirements.txt && \
     pip install --no-cache torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
     pip cache purge
 
-RUN npm install -g --omit=dev configurable-http-proxy@^4.2.0 opencode-ai && \
-   npm install -g  --save-dev  \
+RUN --mount=type=cache,target=/root/.npm,sharing=locked \
+    npm install -g --omit=dev configurable-http-proxy@^4.2.0 opencode-ai && \
+    npm install -g  --save-dev  \
     bash-language-server \
     dockerfile-language-server-nodejs \
     pyright \
@@ -48,8 +52,7 @@ RUN npm install -g --omit=dev configurable-http-proxy@^4.2.0 opencode-ai && \
     vscode-css-languageserver-bin \
     vscode-html-languageserver-bin \
     vscode-json-languageserver-bin \
-    yaml-language-server && \
-    rm -rf ~/.npm
+    yaml-language-server
 
 
 COPY --from=ghcr.io/typst/typst:latest /bin/typst /usr/bin/typst

@@ -3,9 +3,10 @@ FROM nousresearch/hermes-agent:${HERMES_TAG}
 COPY --chmod=775 hermes-config.sh common-config.sh .
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
+    --mount=type=cache,target=/var/cache,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
    apt-get update && \
    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl python3-pip && \
    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
    ./hermes-config.sh && \
-   apt-get clean && \
-   rm -rf /var/cache/apt/* /var/lib/apt/lists/*
+   apt-get clean

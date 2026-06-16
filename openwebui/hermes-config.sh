@@ -35,7 +35,11 @@ modules=(
 )
 
 for module in "${modules[@]}"; do
-    install_module "npx clawhub install --workdir /opt/hermes --force ${module}" "5"
+    if [ -d "/opt/hermes/skills/${module}" ]; then
+        echo "Skipping ${module}, already installed";
+    else
+	install_module "npx clawhub install --workdir /opt/hermes  ${module}" "5"
+    fi
 done
 
 gh_key="hkphysics/scientific-agent-skills"

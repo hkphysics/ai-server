@@ -56,4 +56,5 @@ jupyterlab_iframe
 graphifyy
 jupyterlab-lsp
 python-lsp-server[all]
-runcell
+jupyter-server-documents
+icecream
