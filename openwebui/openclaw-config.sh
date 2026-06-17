@@ -6,7 +6,7 @@ export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 brew trust openclaw/tap steipete/tap
-brew install \
+brew install --force \
      openclaw/tap/goplaces steipete/tap/gifgrep \
      himalaya steipete/tap/spogo steipete/tap/songsee
 brew install --cask 1password-cli

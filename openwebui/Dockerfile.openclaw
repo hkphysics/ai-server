@@ -1,4 +1,4 @@
-ARG OPENCLAW_TAG=latest
+ARG OPENCLAW_TAG=slim
 FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 
 USER root
