@@ -48,7 +48,6 @@ modules=(
     "goplaces"
     "google-maps"
     "baidu"
-    "data-analysis"
     "image"
     "skill-vetter"
     "zhipu-web-search"

@@ -24,7 +24,6 @@ modules=(
     "goplaces"
     "google-maps"
     "baidu"
-    "data-analysis"
     "image"
     "productivity"
     "skill-vetter"
