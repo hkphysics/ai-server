@@ -1,5 +1,15 @@
+x-common:
+  &default-restart
+  restart: always
+
+x-extra-hosts:
+  &host-gateway
+  extra_hosts:
+    - host.docker.internal:host-gateway
+
 services:
   jupyter:
+    <<: [*default-restart, *host-gateway]
     build:
       dockerfile: Dockerfile.jupyter
     volumes:
@@ -7,8 +17,6 @@ services:
       - /mnt:/mnt
     ports:
       - 3002:8000
-    extra_hosts:
-      - host.docker.internal:host-gateway
     environment:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
@@ -17,22 +25,21 @@ services:
       ALLOWED_USERS: ${ALLOWED_USERS}
 
   openwebui:
+    <<: [*default-restart, *host-gateway]
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
     volumes:
       - open-webui:/app/backend/data
     ports:
       - 3000:8080
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    restart: always
-    pull_policy: always
     environment:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
+    pull_policy: always
 
   ollama:
+    <<: [*default-restart]
     image: cagataygurturk/docker-ssh-tunnel:latest
     volumes:
       # Mount your local private SSH key (read-only)
@@ -42,11 +49,12 @@ services:
       REMOTE_HOST: localhost
       REMOTE_PORT: 11434
       TUNNEL_HOST: ${OLLAMA_HOST}
-    restart: always
     ports:
       - 11434:11434
+    pull_policy: always
 
   hermes:
+    <<: [*default-restart, *host-gateway]
     build:
       context: .
       dockerfile: Dockerfile.hermes
@@ -62,12 +70,9 @@ services:
       API_SERVER_HOST: 0.0.0.0
       SEARXNG_URL: http://searxng-core:8080
     command: ["gateway"]
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    restart: always
-    pull_policy: always
 
   openclaw:
+    <<: [*default-restart, *host-gateway]
     build:
       context: .
       dockerfile: Dockerfile.openclaw
@@ -76,8 +81,6 @@ services:
         - clawhub_api_key
       args:
         - OPENCLAW_TAG=${OPENCLAW_TAG-latest}
-    restart: always
-    pull_policy: always
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
@@ -94,25 +97,21 @@ services:
       - linuxbrew:/home/linuxbrew
     ports:
       - 18789:18789
-    extra_hosts:
-      - host.docker.internal:host-gateway
 
   searxng-core:
+    <<: [*default-restart]
     image: docker.io/searxng/searxng:${SEARXNG_VERSION:-latest}
-    restart: always
     env_file: ./.env
     volumes:
       - ./searxng-settings.yml/:/etc/searxng/settings.yml:ro
       - core-data:/var/cache/searxng/
-    pull_policy: always
 
   searxng-valkey:
+    <<: [*default-restart]
     image: docker.io/valkey/valkey:9-alpine
     command: valkey-server --save 30 1 --loglevel warning
-    restart: always
     volumes:
       - valkey-data:/data/
-    pull_policy: always
 
 volumes:
   open-webui:
