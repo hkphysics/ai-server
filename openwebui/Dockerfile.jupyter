@@ -9,15 +9,15 @@ RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
     --mount=type=cache,target=/var/cache,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    curl -fsSL https://deb.nodesource.com/setup_current.x | bash -E - && \
     apt-get update && \
+    apt-get install -yq --no-install-recommends curl && \
+    curl -fsSL https://deb.nodesource.com/setup_current.x | bash -E - && \
     apt-get install -yq --no-install-recommends \
         ca-certificates \
         curl \
         gnupg \
         locales \
         nodejs \
-        npm \
         sudo \
         git \
         texlive \
@@ -41,6 +41,7 @@ RUN  --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     pip cache purge
 
 RUN --mount=type=cache,target=/root/.npm,sharing=locked \
+    npm install -g --omit=dev npm && \
     npm install -g --omit=dev configurable-http-proxy@^4.2.0 opencode-ai && \
     npm install -g --ignore-scripts @earendil-works/pi-coding-agent && \
     npm install -g  --save-dev  \

@@ -6,7 +6,8 @@ RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=cache,target=/var/cache,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
    apt-get update && \
-   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl python3-pip && \
+   apt-get install -yq --no-install-recommends curl && \
+   curl -fsSL https://deb.nodesource.com/setup_current.x | bash -E - && \
+   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nodejs python3-pip && \
    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
-   ./hermes-config.sh && \
-   apt-get clean
+   ./hermes-config.sh
