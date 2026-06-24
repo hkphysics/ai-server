@@ -14,7 +14,8 @@ RUN --mount=type=tmpfs,destination=/tmp \
    mkdir -p /home/linuxbrew/.linuxbrew && \
    chmod a+rwX -R /home/linuxbrew && \
    chown node:node -R /home/node && \
-   apt-get -y autoremove
+   apt-get -y autoremove && \
+   rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
 
 USER node
 RUN --mount=type=tmpfs,destination=/tmp \
