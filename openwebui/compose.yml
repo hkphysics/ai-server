@@ -95,7 +95,6 @@ services:
       SEARXNG_BASE_URL: http://searxng-core:8080
     volumes:
       - openclaw-data:/home/node
-      - linuxbrew:/home/linuxbrew
     ports:
       - 18789:18789
 
@@ -117,7 +116,6 @@ services:
 volumes:
   open-webui:
   hermes-data:
-  linuxbrew:
   core-data:
   valkey-data:
   openclaw-data:
