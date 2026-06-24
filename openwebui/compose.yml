@@ -81,7 +81,7 @@ services:
       secrets:
         - clawhub_api_key
       args:
-        - OPENCLAW_TAG=${OPENCLAW_TAG-latest}
+        - OPENCLAW_TAG=${OPENCLAW_TAG-slim}
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}

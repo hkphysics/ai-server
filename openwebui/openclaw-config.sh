@@ -46,7 +46,6 @@ modules=(
     "self-improving-agent"
     "realtime-crypto-price-api"
     "goplaces"
-    "google-maps"
     "baidu"
     "image"
     "skill-vetter"
