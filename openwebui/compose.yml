@@ -15,6 +15,7 @@ services:
     volumes:
       - jupyter-data:/home
       - /mnt:/mnt
+      - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
     ports:
       - 3002:8000
     environment:
