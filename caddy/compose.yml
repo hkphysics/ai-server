@@ -1,6 +1,5 @@
 services:
   caddy:
-    image: caddy:2.11.3
     build:
       dockerfile: Dockerfile.caddy
     restart: unless-stopped
@@ -9,10 +8,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "443:443/udp"
     volumes:
-      - $PWD/conf:/etc/caddy
-      - $PWD/site:/srv
+      - ./conf:/etc/caddy:ro
+      - ./site:/srv:ro
       - caddy_data:/data
       - caddy_config:/config
     extra_hosts:
