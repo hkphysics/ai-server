@@ -34,7 +34,7 @@ COPY requirements.txt .
 
 ENV SHELL=/bin/bash
 
-RUN  --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+RUN  --mount=type=cache,target=/root/.cache,sharing=locked \
     pip install --no-cache --upgrade pip uv pycurl && \
     uv pip install --system --no-cache --prerelease=allow jupyterhub -r requirements.txt && \
     pip install --no-cache torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
