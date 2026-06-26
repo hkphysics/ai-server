@@ -27,7 +27,7 @@ services:
 
   openwebui:
     <<: [*default-restart, *host-gateway]
-    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-slim}
     volumes:
       - open-webui:/app/backend/data
     ports:
