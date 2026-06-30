@@ -20,7 +20,7 @@ modules=(
     "ontology"
     "playwright-mcp"
     "x-search"
-    "self-improving-agent"
+    "@pskoett/self-improving-agent"
     "realtime-crypto-price-api"
     "goplaces"
     "baidu"
