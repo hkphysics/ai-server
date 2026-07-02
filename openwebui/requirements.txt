@@ -58,3 +58,4 @@ jupyterlab-lsp
 python-lsp-server[all]
 jupyter-server-documents
 icecream
+bash_kernel
