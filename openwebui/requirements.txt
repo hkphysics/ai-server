@@ -59,3 +59,5 @@ python-lsp-server[all]
 jupyter-server-documents
 icecream
 bash_kernel
+jupyter_ai_acp_client
+zsh_jupyter_kernel

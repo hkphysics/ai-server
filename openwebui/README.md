@@ -12,17 +12,6 @@ docker compose run hermes setup
 docker compose run hermes chat
 ```
 
-3) Add connection to OpenAI API in openwebui
-```
-URL: http://hermes:8642/v1
-API: (your API_SERVER_KEY)
-```
-change chat completion to response
-
-In the list of Settings -> Admin Settings -> Models
-
-Search for all of the models and change the function call to True
-
 ## Installing openclaw
 
 1) Add CLAWHUB_API_KEY to allow loading of clawhub
@@ -46,6 +35,7 @@ Add connection for hermes
 URL: http://hermes:8642/v1
 API: copy from compose.yml
 ```
+
 
 In the list of Settings -> Admin Settings -> Models
 

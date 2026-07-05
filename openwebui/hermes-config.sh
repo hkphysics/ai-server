@@ -41,7 +41,7 @@ for module in "${modules[@]}"; do
     fi
 done
 
-gh_key="hkphysics/scientific-agent-skills"
+gh_key="K-Dense-AI/scientific-agent-skills"
 gh_modules="aeon \
   astropy \
   citation-management \

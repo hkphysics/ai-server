@@ -4,14 +4,13 @@ USER root
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1
-
+COPY --chmod=775 nodesource.sh .
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
     --mount=type=cache,target=/var/cache,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get install -yq --no-install-recommends curl && \
-    curl -fsSL https://deb.nodesource.com/setup_current.x | bash -E - && \
+    bash -E nodesource.sh && \
     apt-get install -yq --no-install-recommends \
         ca-certificates \
         curl \
@@ -26,7 +25,8 @@ RUN --mount=type=tmpfs,destination=/tmp \
         texlive-bibtex-extra \
         biber \
         less \
-        neovim && \
+        neovim \
+	graphviz && \
     apt-get clean && \
     rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
 
@@ -39,6 +39,7 @@ RUN  --mount=type=cache,target=/root/.cache,sharing=locked \
     uv pip install --system --no-cache --prerelease=allow jupyterhub -r requirements.txt && \
     pip install --no-cache torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
     python -m bash_kernel.install && \
+    python -m zsh_jupyter_kernel.install  && \
     pip cache purge
 
 RUN --mount=type=cache,target=/root/.npm,sharing=locked \

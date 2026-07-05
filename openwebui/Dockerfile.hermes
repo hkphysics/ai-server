@@ -1,13 +1,12 @@
 ARG HERMES_TAG=latest
 FROM nousresearch/hermes-agent:${HERMES_TAG}
-COPY --chmod=775 hermes-config.sh common-config.sh .
+COPY --chmod=775 hermes-config.sh common-config.sh nodesource.sh .
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
     --mount=type=cache,target=/var/cache,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
+   bash -E nodesource.sh && \
    apt-get update && \
-   apt-get install -yq --no-install-recommends curl && \
-   curl -fsSL https://deb.nodesource.com/setup_current.x | bash -E - && \
-   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nodejs python3-pip && \
+   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nodejs python3-pip curl && \
    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
    ./hermes-config.sh
