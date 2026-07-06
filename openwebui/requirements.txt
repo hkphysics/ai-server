@@ -9,7 +9,7 @@ oauthenticator
 # installing all jupyter-ai models will cause
 # a timeout on startup
 jupyterlite-ai[jupyter]
-jupyter-ai-jupyternaut
+git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
 jupyter-ai-magic-commands
 jupyter-ai-router
 jupyter-ai-persona-manager
