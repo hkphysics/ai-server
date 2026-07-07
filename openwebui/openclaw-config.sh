@@ -31,7 +31,7 @@ openclaw config set --batch-json '[
 {"path": "browser.defaultProfile", "value": "openclaw"},
 {"path": "browser.executablePath", "value": "/usr/bin/chromium-headless-shell"},
 {"path": "agents.defaults.memorySearch.provider", "value": "local"},
-{"path": "tools.codeMode.enabled", true}
+{"path": "tools.codeMode.enabled", "value": true}
 ]'
 
 source $SCRIPT_DIR/common-config.sh

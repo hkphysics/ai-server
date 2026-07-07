@@ -10,9 +10,9 @@ oauthenticator
 # a timeout on startup
 jupyterlite-ai[jupyter]
 git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
-jupyter-ai-magic-commands
+git+https://github.com/hkphysics/jupyter-ai-magic-commands@develop
+git+https://github.com/hkphysics/jupyter-ai-persona-manager@develop
 jupyter-ai-router
-jupyter-ai-persona-manager
 jupyter-ai-tools
 jupyter-ai-litellm
 jupyterlab-magic-wand
