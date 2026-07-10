@@ -1,7 +1,22 @@
-node_modules/**
-openclaw-data/**
-*~
-.env*
+# Exclude backup files
 *.bak
 *.clobbered
-Dockerfile.*
+~*
+
+# Exclude node_modules and openclaw-data
+node_modules/**
+openclaw-data/**
+
+# Exclude project configs
+.env
+.env~
+.gitignore
+.gitignore~
+compose.yml
+searxng-settings.yml
+
+# Exclude version control
+.git/
+.github/
+.gitlab-ci.yml
+.svn/

@@ -39,6 +39,7 @@ services:
       GOOGLE_DRIVE_API_KEY: ${GOOGLE_DRIVE_API_KEY}
       OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
+      OPENAI_API_BASE_URL: http://litellm:4000/v1
     pull_policy: always
 
   ollama:
@@ -114,6 +115,19 @@ services:
     command: valkey-server --save 30 1 --loglevel warning
     volumes:
       - valkey-data:/data/
+
+  litellm:
+    <<: [*default-restart]
+    build:
+      dockerfile: Dockerfile.litellm
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./litellm_config.yml:/app/config.yml
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+    command: [ "--config", "/app/config.yml", "--port", "4000" ]
+
 
 volumes:
   open-webui:

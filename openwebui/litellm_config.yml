@@ -1,0 +1,19 @@
+model_list:
+  - model_name: "openclaw"
+    litellm_params:
+      model: "openai/openclaw"
+      api_base: "http://openclaw:18789/v1"
+      api_key:  "your-secure-key-fob!"
+  - model_name: "hermes-agent"
+    litellm_params:
+      model: "openai/hermes-agent"
+      api_base: "http://hermes:8642/v1"
+      api_key:  "your-secure-key-fob!"
+  - model_name: "openrouter/free"
+    litellm_params:
+      model: "openrouter/openrouter/free"
+      api_key: "os.environ/OPENROUTER_API_KEY"
+      api_base: "https://openrouter.ai/api/v1"
+
+litellm_settings:
+  check_provider_endpoint: true
