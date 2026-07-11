@@ -14,10 +14,27 @@ model_list:
       model: "openrouter/openrouter/free"
       api_key: "os.environ/OPENROUTER_API_KEY"
       api_base: "https://openrouter.ai/api/v1"
+  - model_name: "openrouter/free/*"
+    litellm_params:
+      model: "openrouter/*"
+      api_key: "os.environ/OPENROUTER_API_KEY"
+      api_base: "https://openrouter.ai/api/v1"
   - model_name: "ollama_chat/*"
     litellm_params:
       model: "ollama_chat/*"
       api_base: "http://ollama:11434"
+  - model_name: "poe/claude-sonnet-5"
+    litellm_params:
+      model: "poe/claude-sonnet-5"
+      api_base: "https://api.poe.com/v1"
+      api_key: "os.environ/POE_API_KEY"
+      drop_params: True
+  - model_name: "poe/grok-4.5"
+    litellm_params:
+      model: "poe/grok-4.5"
+      api_base: "https://api.poe.com/v1"
+      api_key: "os.environ/POE_API_KEY"
+      drop_params: True
 
 litellm_settings:
   check_provider_endpoint: true

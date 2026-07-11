@@ -126,6 +126,7 @@ services:
       - ./litellm_config.yml:/app/config.yml
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      POE_API_KEY: ${POE_API_KEY}
     command: [ "--config", "/app/config.yml", "--port", "4000" ]
 
 
