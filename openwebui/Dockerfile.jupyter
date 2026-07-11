@@ -1,10 +1,13 @@
 ARG BASE_IMAGE=python:3.14-slim
 FROM $BASE_IMAGE
+
 USER root
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1
+
 COPY --chmod=775 nodesource.sh .
+
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
     --mount=type=cache,target=/var/cache,sharing=locked \
@@ -26,52 +29,39 @@ RUN --mount=type=tmpfs,destination=/tmp \
         biber \
         less \
         neovim \
-	graphviz && \
+        graphviz && \
     apt-get clean && \
     rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
 
 COPY requirements.txt .
 
-ENV SHELL=/bin/bash
-
-RUN  --mount=type=cache,target=/root/.cache,sharing=locked \
-    pip install --no-cache --upgrade pip uv pycurl && \
-    uv pip install --system --no-cache --prerelease=allow jupyterhub -r requirements.txt && \
-    pip install --no-cache torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
+RUN --mount=type=cache,target=/root/.cache,sharing=locked \
+    pip install --no-cache --upgrade pip uv && \
+    uv pip install --system --prerelease=allow jupyterhub -r requirements.txt && \
+    uv pip install --system torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
     python -m bash_kernel.install && \
-    python -m zsh_jupyter_kernel.install  && \
-    pip cache purge
+    python -m zsh_jupyter_kernel.install
 
 RUN --mount=type=cache,target=/root/.npm,sharing=locked \
-    npm install -g --omit=dev npm && \
-    npm install -g --omit=dev configurable-http-proxy@^4.2.0 opencode-ai && \
-    npm install -g --ignore-scripts @earendil-works/pi-coding-agent && \
-    npm install -g  --save-dev  \
-    bash-language-server \
-    dockerfile-language-server-nodejs \
-    pyright \
-    sql-language-server \
-    typescript-language-server \
-    unified-language-server \
-    vscode-css-languageserver-bin \
-    vscode-html-languageserver-bin \
-    vscode-json-languageserver-bin \
-    yaml-language-server && \
-    pi install npm:opencode-ponytail
+    npm install -g --omit=dev npm configurable-http-proxy@^4.2.0 opencode-ai \
+        bash-language-server dockerfile-language-server-nodejs pyright \
+        sql-language-server typescript-language-server unified-language-server \
+        vscode-css-languageserver-bin vscode-html-languageserver-bin \
+        vscode-json-languageserver-bin yaml-language-server && \
+    npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 
 COPY --from=ghcr.io/typst/typst:latest /bin/typst /usr/bin/typst
 
-RUN mkdir -p /srv/jupyterhub/
-WORKDIR /srv/jupyterhub/
-
-EXPOSE 8000
-
-LABEL org.jupyter.service="jupyterhub"
-
-RUN ln -s /mnt/shared /etc/skel/shared
+WORKDIR /srv/jupyterhub
 
 COPY jupyterhub_config.py .
 COPY --chmod=775 jupyterhub-add-user /usr/sbin
 COPY --chmod=744 jupyterhub-admin /etc/sudoers.d
+
+RUN ln -s /mnt/shared /etc/skel/shared
+
+EXPOSE 8000
+
+LABEL org.jupyter.service="jupyterhub"
 
 CMD ["jupyterhub"]

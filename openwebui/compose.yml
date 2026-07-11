@@ -118,8 +118,7 @@ services:
 
   litellm:
     <<: [*default-restart]
-    build:
-      dockerfile: Dockerfile.litellm
+    image: ghcr.io/berriai/litellm:main-stable
     ports:
       - "4000:4000"
     volumes:

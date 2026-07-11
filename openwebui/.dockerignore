@@ -1,13 +1,37 @@
-# Exclude backup files
+# Backup files
 *.bak
 *.clobbered
 ~*
 
-# Exclude node_modules and openclaw-data
+# Node modules and cache
 node_modules/**
-openclaw-data/**
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.pnpm-store
 
-# Exclude project configs
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.cache
+.pydistutils/
+*.egg-info/
+dist/
+build/
+
+# Project configs
 .env
 .env~
 .gitignore
@@ -15,8 +39,31 @@ openclaw-data/**
 compose.yml
 searxng-settings.yml
 
-# Exclude version control
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter outputs
+.ipynb_checkpoints/
+.myst/
+.myst_cache/
+
+# Version control
 .git/
 .github/
 .gitlab-ci.yml
 .svn/
+
+# Build artifacts
+*.log
+out.json
+report.xml
+*.pcap
+
+# OpenAI/LLM related
+.openai/
+.openrouter/

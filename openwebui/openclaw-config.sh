@@ -79,4 +79,3 @@ openclaw plugins install @openclaw/searxng-plugin
 openclaw plugins install @openclaw/llama-cpp-provider
 chmod o-w -R /home/node/.openclaw/npm/projects
 openclaw skills update --all
-openclaw doctor

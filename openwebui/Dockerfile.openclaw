@@ -2,32 +2,36 @@ ARG OPENCLAW_TAG=slim
 FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 
 USER root
+
 COPY --chmod=775 nodesource.sh .
+
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
     --mount=type=cache,target=/var/cache,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-   bash -E nodesource.sh && \
-   DEBIAN_FRONTEND=noninteractive apt-get update && \
-   apt-get install -y  --no-install-recommends \
-       build-essential python3-requests python3-pip curl \
-       chromium-headless-shell jq tmux ffmpeg unzip && \
-   mkdir -p /home/linuxbrew/.linuxbrew && \
-   chmod a+rwX -R /home/linuxbrew && \
-   chown node:node -R /home/node && \
-   apt-get clean && \
-   rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
+    --mount=type=cache,target=/home/node/.npm,uid=1000,sharing=locked \
+    bash -E nodesource.sh && \
+    DEBIAN_FRONTEND=noninteractive apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential python3-requests python3-pip curl \
+        chromium-headless-shell jq tmux ffmpeg unzip && \
+    mkdir -p /home/linuxbrew/.linuxbrew && \
+    chown node:node -R /home/linuxbrew && \
+    chmod -R u+rwX,go+rX,go-w /home/linuxbrew && \
+    apt-get clean && \
+    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
 
 USER node
+
 COPY --chmod=775 --chown=node:node openclaw-config.sh common-config.sh install-homebrew.sh /home/node
-RUN NONINTERACTIVE=1 /bin/bash /home/node/install-homebrew.sh && \
-    /home/linuxbrew/.linuxbrew/bin/brew install gh gogcli
 
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
-    --mount=type=secret,id=clawhub_api_key,uid=1000 \
-    --mount=type=cache,target=/home/node/.npm,uid=1000,sharing=locked \
+    NONINTERACTIVE=1 /bin/bash /home/node/install-homebrew.sh && \
+    /home/linuxbrew/.linuxbrew/bin/brew install gh gogcli && \
+    rm -rf /home/linuxbrew/.linuxbrew/var/cache
+
+RUN --mount=type=secret,id=clawhub_api_key,uid=1000 \
+    --mount=type=cache,target=/home/node/.cache/pip,uid=1000,sharing=locked \
     CLAWHUB_API_KEY=$(cat /run/secrets/clawhub_api_key) \
     /home/node/openclaw-config.sh
-
-
