@@ -14,11 +14,51 @@ model_list:
       model: "openrouter/openrouter/free"
       api_key: "os.environ/OPENROUTER_API_KEY"
       api_base: "https://openrouter.ai/api/v1"
-  - model_name: "openrouter/free/*"
+  - model_name: "openrouter/auto"
     litellm_params:
-      model: "openrouter/*"
+      model: "openrouter/openrouter/auto"
       api_key: "os.environ/OPENROUTER_API_KEY"
       api_base: "https://openrouter.ai/api/v1"
+  - model_name: "openrouter/poolside/laguna-m.1:free"
+    litellm_params:
+      model: "openrouter/poolside/laguna-m.1:free"
+      api_key: "os.environ/OPENROUTER_API_KEY"
+      api_base: "https://openrouter.ai/api/v1"
+      rpm: 18 # Limit to 18 requests per minute (20 is the max)
+      tpm: 30000
+      router_settings:
+         optional_pre_call_checks:
+           - enforce_model_rate_limits # Enables strict rate checks
+  - model_name: "openrouter/cohere/north-mini-code:free"
+    litellm_params:
+      model: "openrouter/cohere/north-mini-code:free"
+      api_key: "os.environ/OPENROUTER_API_KEY"
+      api_base: "https://openrouter.ai/api/v1"
+      rpm: 18 # Limit to 18 requests per minute (20 is the max)
+      tpm: 30000
+      router_settings:
+         optional_pre_call_checks:
+           - enforce_model_rate_limits # Enables strict rate checks
+  - model_name: "openrouter/openai/gpt-oss-120b:free"
+    litellm_params:
+      model: "openrouter/openai/gpt-oss-120b:free"
+      api_key: "os.environ/OPENROUTER_API_KEY"
+      api_base: "https://openrouter.ai/api/v1"
+      rpm: 18 # Limit to 18 requests per minute (20 is the max)
+      tpm: 30000
+      router_settings:
+         optional_pre_call_checks:
+           - enforce_model_rate_limits # Enables strict rate checks
+  - model_name: "openrouter/qwen/qwen3-next-80b-a3b-instruct:free"
+    litellm_params:
+      model: "openrouter/qwen/qwen3-next-80b-a3b-instruct:free"
+      api_key: "os.environ/OPENROUTER_API_KEY"
+      api_base: "https://openrouter.ai/api/v1"
+      rpm: 18 # Limit to 18 requests per minute (20 is the max)
+      tpm: 30000
+      router_settings:
+         optional_pre_call_checks:
+           - enforce_model_rate_limits # Enables strict rate checks
   - model_name: "ollama_chat/*"
     litellm_params:
       model: "ollama_chat/*"
