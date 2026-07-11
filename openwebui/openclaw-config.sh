@@ -37,7 +37,8 @@ openclaw config set --batch-json '[
 source $SCRIPT_DIR/common-config.sh
 
 modules=(
-    "multi-search-engine"
+    "@steipete/weather"
+    "@gpyangyoujun/multi-search-engine"
     "word-docx"
     "powerpoint-pptx"
     "@ivangdavila/excel-xlsx"

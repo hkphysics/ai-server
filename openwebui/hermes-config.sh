@@ -10,8 +10,8 @@ npx playwright install chromium
 source $SCRIPT_DIR/common-config.sh
 
 modules=(
-    "weather"
-    "multi-search-engine"
+    "@steipete/weather"
+    "@gpyangyoujun/multi-search-engine"
     "word-docx"
     "powerpoint-pptx"
     "@ivangdavila/excel-xlsx"
