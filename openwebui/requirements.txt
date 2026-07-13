@@ -61,3 +61,5 @@ icecream
 bash_kernel
 jupyter_ai_acp_client
 zsh_jupyter_kernel
+jupyterlab_commands_toolkit
+jupyterlab-ai-commands
