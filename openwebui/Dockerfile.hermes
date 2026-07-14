@@ -1,7 +1,9 @@
 ARG HERMES_TAG=latest
 FROM nousresearch/hermes-agent:${HERMES_TAG}
+USER root
+ENV PYTHONDONTWRITEBYTECODE=1
 
-COPY --chmod=775 hermes-config.sh common-config.sh nodesource.sh .
+COPY --chmod=775 hermes-config.sh common-config.sh .
 
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
@@ -9,9 +11,6 @@ RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/root/.npm,sharing=locked \
     --mount=type=cache,target=/root/.cache/pip,sharing=locked \
-    bash -E nodesource.sh && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        nodejs python3-pip curl && \
-    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
     ./hermes-config.sh
+
+USER hermes

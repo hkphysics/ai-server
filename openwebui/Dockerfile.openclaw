@@ -2,6 +2,7 @@ ARG OPENCLAW_TAG=slim
 FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 
 USER root
+ENV PYTHONDONTWRITEBYTECODE=1
 
 COPY --chmod=775 nodesource.sh .
 

@@ -3,9 +3,8 @@
 set -e
 umask 000
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
+export UV=uv
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
-npx playwright install chromium
 
 source $SCRIPT_DIR/common-config.sh
 

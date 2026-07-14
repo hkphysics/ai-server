@@ -70,7 +70,7 @@ install_cli_anything() {
     local workdir=$1
 
     cd "$workdir"
-    pip install cli-anything-hub
+    $UV pip install cli-anything-hub
     npx skills add HKUDS/CLI-Anything --skill cli-hub-meta-skill -y
     rm -f skills/cli-hub-meta-skill
     mv .agents/skills/cli-hub-meta-skill skills

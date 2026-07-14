@@ -3,6 +3,7 @@
 set -e
 umask 000
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
+unset UV
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 brew trust openclaw/tap steipete/tap
