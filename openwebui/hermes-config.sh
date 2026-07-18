@@ -16,7 +16,7 @@ modules=(
     "@ivangdavila/excel-xlsx"
     "@ivangdavila/data-analysis"
     "google-maps"
-    "ontology"
+    "@oswalpalash/ontology"
     "playwright-mcp"
     "x-search"
     "@pskoett/self-improving-agent"

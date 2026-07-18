@@ -63,3 +63,9 @@ jupyter_ai_acp_client
 zsh_jupyter_kernel
 jupyterlab_commands_toolkit
 jupyterlab-ai-commands
+stellars_jupyterlab_extensions
+python-docx
+python-pptx
+pillow
+reportlab
+

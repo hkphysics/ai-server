@@ -47,8 +47,9 @@ RUN --mount=type=cache,target=/root/.npm,sharing=locked \
         bash-language-server dockerfile-language-server-nodejs pyright \
         sql-language-server typescript-language-server unified-language-server \
         vscode-css-languageserver-bin vscode-html-languageserver-bin \
-        vscode-json-languageserver-bin yaml-language-server && \
-    npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+        vscode-json-languageserver-bin yaml-language-server bun && \
+    npm install -g --ignore-scripts @earendil-works/pi-coding-agent  \
+        @oh-my-pi/pi-coding-agent
 
 COPY --from=ghcr.io/typst/typst:latest /bin/typst /usr/bin/typst
 
