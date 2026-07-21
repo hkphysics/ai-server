@@ -53,7 +53,7 @@ modules=(
     "goplaces"
     "baidu"
     "image"
-    "skill-vetter"
+    "@spclaudehome/skill-vetter"
     "zhipu-web-search"
     "baidu-ai-map"
     "annas-archive"

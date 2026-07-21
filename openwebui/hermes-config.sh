@@ -25,7 +25,7 @@ modules=(
     "baidu"
     "image"
     "productivity"
-    "skill-vetter"
+    "@spclaudehome/skill-vetter"
     "zhipu-web-search"
     "baidu-ai-map"
     "annas-archive"

@@ -28,6 +28,7 @@ pytest
 matplotlib
 pandas
 polars
+duckdb
 ipympl
 # version with fixes
 git+https://github.com/hkphysics/uniswappy.git
