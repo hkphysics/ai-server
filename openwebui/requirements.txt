@@ -69,4 +69,5 @@ python-docx
 python-pptx
 pillow
 reportlab
-
+pdfplumber
+pypdf
