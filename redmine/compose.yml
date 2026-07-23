@@ -15,6 +15,18 @@ services:
     volumes:
       - redmine-files:/usr/share/redmine/files
       - redmine-themes:/usr/src/redmine/public/themes
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.project.rule=Host(`project.${DOMAIN-localhost}`)"
+      - "traefik.http.routers.project.entrypoints=websecure"
+      - "traefik.http.routers.project.tls=true"
+      - "traefik.http.routers.project.tls.certresolver=myresolver"
+      - "traefix.http.services.project.loadbalancer.server.port=3000"
+      - "traefix.docker.network=proxy-network"
+    networks:
+      - default
+      - proxy-network
+
   db:
     image: postgres:18
     restart: always
@@ -28,3 +40,7 @@ volumes:
    redmine-files:
    redmine-themes:
    postgres_data:
+
+networks:
+   proxy-network:
+     name: proxy-network

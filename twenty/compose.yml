@@ -58,6 +58,17 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "smtp.gmail.com:host-gateway"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.crm.rule=Host(`project.${DOMAIN-localhost}`)"
+      - "traefik.http.routers.crm.entrypoints=websecure"
+      - "traefik.http.routers.crm.tls=true"
+      - "traefik.http.routers.crm.tls.certresolver=myresolver"
+      - "traefix.http.services.crm.loadbalancer.server.port=3000"
+      - "traefix.docker.network=proxy-network"
+    networks:
+      - default
+      - proxy-network
 
   worker:
     image: twentycrm/twenty:${TAG:-v1}
@@ -134,3 +145,7 @@ services:
 volumes:
   db-data:
   server-local-data:
+
+networks:
+   proxy-network:
+     name: proxy-network
