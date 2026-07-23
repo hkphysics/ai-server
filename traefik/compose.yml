@@ -1,0 +1,48 @@
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "80:80"      # HTTP entrypoint
+      - "443:443"    # HTTPS entrypoint
+    volumes:
+      # Mount the Docker socket as read-only for automatic service discovery
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Volume to persist Let's Encrypt certificates
+      - ./letsencrypt:/letsencrypt
+    command:
+      # Global configuration
+      - --global.checknewversion=false
+      - --global.sendanonymoususage=false
+      # Enable API and Dashboard securely
+      - --api.dashboard=true
+      - --api.insecure=false
+      # Define entrypoints
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      # Automatic HTTP to HTTPS redirection
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      # Enable Docker backend provider
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=proxy-network
+      # Let's Encrypt TLS Automation (HTTP Challenge)
+      - --certificatesresolvers.myresolver.acme.httpchallenge=true
+      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.myresolver.acme.email=${TRAEFIK_EMAIL}
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - "--log.level=DEBUG"       # Set level: DEBUG, INFO, WARN, ERROR
+      - "--accesslog=true"       # Enable access l
+    labels:
+      # Securely route Traefik Dashboard over HTTPS
+      - "traefik.enable=true"
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    name: proxy-network

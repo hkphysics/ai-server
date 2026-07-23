@@ -10,6 +10,7 @@ x-extra-hosts:
 services:
   jupyter:
     <<: [*default-restart, *host-gateway]
+    container_name: compute
     build:
       dockerfile: Dockerfile.jupyter
     volumes:
@@ -24,10 +25,22 @@ services:
       GOOGLE_OAUTH_CALLBACK_URL: ${JUPYTER_OAUTH_CALLBACK_URL}
       ADMIN_USERS: ${ADMIN_USERS}
       ALLOWED_USERS: ${ALLOWED_USERS}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.compute.rule=Host(`compute.${DOMAIN-localhost}`)"
+      - "traefik.http.routers.compute.entrypoints=websecure"
+      - "traefik.http.routers.compute.tls=true"
+      - "traefik.http.routers.compute.tls.certresolver=myresolver"
+      - "traefix.http.services.compute.loadbalancer.server.port=8000"
+      - "traefix.docker.network=proxy-network"
+    networks:
+      - default
+      - proxy-network
 
   openwebui:
     <<: [*default-restart, *host-gateway]
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-slim}
+    container_name: ai
     volumes:
       - open-webui:/app/backend/data
     ports:
@@ -41,6 +54,17 @@ services:
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
       OPENAI_API_BASE_URL: http://litellm:4000/v1
     pull_policy: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ai.rule=Host(`ai.${DOMAIN-localhost}`)"
+      - "traefik.http.routers.ai.entrypoints=websecure"
+      - "traefik.http.routers.ai.tls=true"
+      - "traefik.http.routers.ai.tls.certresolver=myresolver"
+      - "traefix.http.services.compute.loadbalancer.server.port=8080"
+      - "traefix.docker.network=proxy-network"
+    networks:
+      - default
+      - proxy-network
 
   ollama:
     <<: [*default-restart]
@@ -140,4 +164,8 @@ volumes:
 secrets:
   clawhub_api_key:
     environment: "CLAWHUB_API_KEY"
+
+networks:
+   proxy-network:
+     name: proxy-network
 

@@ -1,5 +1,6 @@
 import os
-c.JupyterHub.ip = 'jupyter'
+c.JupyterHub.ip = '0.0.0.0'
+c.JupyterHub.hub_ip = '0.0.0.0'
 c.JupyterHub.hub_connect_ip = 'jupyter'
 c.JupyterHub.bind_url = 'http://jupyter:8000/'
 c.Authenticator.admin_users = os.environ['ADMIN_USERS'].split(',')
