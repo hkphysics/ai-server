@@ -14,6 +14,7 @@ oauthenticator
 #jupyter-ai-jupyternaut
 git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
 git+https://github.com/hkphysics/jupyter-ai-persona-manager@develop
+git+https://github.com/hkphysics/jupyterlab-ai-commands@develop
 jupyter-ai-magic-commands
 jupyter-ai-router
 jupyter-ai-tools
@@ -22,7 +23,6 @@ jupyterlab-magic-wand
 jupyter-server-mcp
 # This can causes freezes
 jupyter-collaboration
-lckr-jupyterlab-variableinspector
 jupyterlab-code-formatter
 isort
 black
