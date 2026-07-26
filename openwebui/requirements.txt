@@ -1,4 +1,5 @@
-jupyterlab_myst
+git+https://github.com/hkphysics/jupyterlab-myst.git
+jupyterlab-diff
 jupyterlab-git
 jupyterlab-latex
 jupyterlab-spreadsheet-editor
@@ -8,7 +9,9 @@ oauthenticator
 
 # installing all jupyter-ai models will cause
 # a timeout on startup
-jupyterlite-ai[jupyter]
+#jupyterlite-ai[jupyter]
+#jupyter-ai-persona-manager
+#jupyter-ai-jupyternaut
 git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
 git+https://github.com/hkphysics/jupyter-ai-persona-manager@develop
 jupyter-ai-magic-commands

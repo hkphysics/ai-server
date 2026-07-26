@@ -35,22 +35,21 @@ RUN --mount=type=tmpfs,destination=/tmp \
 
 COPY requirements.txt .
 
+RUN --mount=type=cache,target=/root/.npm,sharing=locked \
+    npm install -g --omit=dev npm pnpm configurable-http-proxy@^4.2.0 opencode-ai \
+        bash-language-server dockerfile-language-server-nodejs pyright \
+        sql-language-server typescript-language-server unified-language-server \
+        vscode-css-languageserver-bin vscode-html-languageserver-bin \
+        vscode-json-languageserver-bin yaml-language-server bun \
+        @earendil-works/pi-coding-agent &&  \
+    npm config set allow-scripts=bun,opencode-ai,sqlite3 --location=user
+
 RUN --mount=type=cache,target=/root/.cache,sharing=locked \
     pip install --no-cache --upgrade pip uv && \
     uv pip install --system --prerelease=allow jupyterhub -r requirements.txt && \
     uv pip install --system torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
     python -m bash_kernel.install && \
     python -m zsh_jupyter_kernel.install
-
-RUN --mount=type=cache,target=/root/.npm,sharing=locked \
-    npm install -g --omit=dev npm configurable-http-proxy@^4.2.0 opencode-ai \
-        bash-language-server dockerfile-language-server-nodejs pyright \
-        sql-language-server typescript-language-server unified-language-server \
-        vscode-css-languageserver-bin vscode-html-languageserver-bin \
-        vscode-json-languageserver-bin yaml-language-server bun && \
-    npm install -g --ignore-scripts @earendil-works/pi-coding-agent  \
-        @oh-my-pi/pi-coding-agent && \
-    npm config set allow-scripts=bun,opencode-ai,sqlite3 --location=user
 
 COPY --from=ghcr.io/typst/typst:latest /bin/typst /usr/bin/typst
 
