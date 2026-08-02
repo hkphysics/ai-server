@@ -23,15 +23,15 @@ RUN --mount=type=tmpfs,destination=/tmp \
         sudo \
         git \
         texlive \
-        texlive-fonts-extra \
+	texlive-latex-base \
         texlive-science \
-        texlive-bibtex-extra \
         biber \
         less \
         neovim \
         graphviz && \
     apt-get clean && \
-    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
+    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
+    find /usr/share/doc /usr/share/man -type f -delete
 
 COPY requirements.txt .
 
@@ -39,8 +39,7 @@ RUN --mount=type=cache,target=/root/.npm,sharing=locked \
     npm install -g --omit=dev npm pnpm configurable-http-proxy@^4.2.0 opencode-ai \
         bash-language-server dockerfile-language-server-nodejs pyright \
         sql-language-server typescript-language-server unified-language-server \
-        vscode-css-languageserver-bin vscode-html-languageserver-bin \
-        vscode-json-languageserver-bin yaml-language-server bun \
+        yaml-language-server bun \
         @earendil-works/pi-coding-agent &&  \
     npm config set allow-scripts=bun,opencode-ai,sqlite3 --location=user
 
