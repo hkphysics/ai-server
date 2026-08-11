@@ -10,7 +10,6 @@ x-extra-hosts:
 services:
   jupyter:
     <<: [*default-restart, *host-gateway]
-    container_name: compute
     build:
       dockerfile: Dockerfile.jupyter
     volumes:
@@ -40,7 +39,6 @@ services:
   openwebui:
     <<: [*default-restart, *host-gateway]
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-slim}
-    container_name: ai
     volumes:
       - open-webui:/app/backend/data
     ports:
@@ -81,7 +79,7 @@ services:
       - 11434:11434
     pull_policy: always
 
-  hermes:
+  hermes-agent:
     <<: [*default-restart, *host-gateway]
     build:
       context: .

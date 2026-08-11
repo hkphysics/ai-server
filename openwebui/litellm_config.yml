@@ -7,7 +7,7 @@ model_list:
   - model_name: "hermes-agent"
     litellm_params:
       model: "openai/hermes-agent"
-      api_base: "http://hermes:8642/v1"
+      api_base: "http://hermes-agent:8642/v1"
       api_key:  "your-secure-key-fob!"
   - model_name: "openrouter/free"
     litellm_params:
