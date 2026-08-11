@@ -24,6 +24,10 @@ services:
       GOOGLE_OAUTH_CALLBACK_URL: ${JUPYTER_OAUTH_CALLBACK_URL}
       ADMIN_USERS: ${ADMIN_USERS}
       ALLOWED_USERS: ${ALLOWED_USERS}
+      HERMES_AGENT_BASE_URL: http://hermes-agent:8642/v1
+      HERMES_AGENT_API_KEY: your-secure-key-fob!
+      OPENCLAW_BASE_URL: http://openclaw:18789/v1
+      OPENCLAW_API_KEY: your-secure-key-fob!
 
   openwebui:
     <<: [*default-restart, *host-gateway]
