@@ -57,7 +57,7 @@ services:
       - 11434:11434
     pull_policy: always
 
-  hermes:
+  hermes-agent:
     <<: [*default-restart, *host-gateway]
     build:
       context: .
