@@ -59,10 +59,9 @@ install_github_modules() {
     local module_list=$3
 
     cd "$workdir"
+    git clone --progress --single-branch --depth 1 https://github.com/${gh_key}.git /tmp/github.$$
     for module in $module_list; do
-        install_module "npx skills add https://github.com/${gh_key}/tree/main/skills/${module} -y" "5"
-        rm -f skills/${module}
-        mv .agents/skills/${module} skills
+        mv /tmp/github.$$/skills/${module} skills
     done
 }
 

@@ -16,8 +16,6 @@ services:
       - jupyter-data:/home
       - /mnt:/mnt
       - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
-    ports:
-      - 3002:8000
     environment:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
@@ -30,14 +28,12 @@ services:
       OPENCLAW_API_KEY: your-secure-key-fob!
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.compute.rule=Host(`compute.${DOMAIN-localhost}`)"
-      - "traefik.http.routers.compute.entrypoints=websecure"
-      - "traefik.http.routers.compute.tls=true"
-      - "traefik.http.routers.compute.tls.certresolver=myresolver"
-      - "traefix.http.services.compute.loadbalancer.server.port=8000"
-      - "traefix.docker.network=proxy-network"
+      - "traefik.http.routers.jupyter.rule=Host(`compute.${DOMAIN-localhost}`)"
+      - "traefik.http.routers.jupyter.entrypoints=websecure"
+      - "traefik.http.routers.jupyter.tls=true"
+      - "traefik.http.routers.jupyter.tls.certresolver=myresolver"
+      - "traefik.docker.network=proxy-network"
     networks:
-      - default
       - proxy-network
 
   openwebui:
@@ -62,8 +58,7 @@ services:
       - "traefik.http.routers.ai.entrypoints=websecure"
       - "traefik.http.routers.ai.tls=true"
       - "traefik.http.routers.ai.tls.certresolver=myresolver"
-      - "traefix.http.services.compute.loadbalancer.server.port=8080"
-      - "traefix.docker.network=proxy-network"
+      - "traefik.docker.network=proxy-network"
     networks:
       - default
       - proxy-network

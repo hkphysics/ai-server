@@ -4,7 +4,7 @@ FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 USER root
 ENV PYTHONDONTWRITEBYTECODE=1
 
-COPY --chmod=775 nodesource.sh .
+COPY --chmod=775 nodesource.sh install-homebrew.sh .
 
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
@@ -24,13 +24,13 @@ RUN --mount=type=tmpfs,destination=/tmp \
 
 USER node
 
-COPY --chmod=775 --chown=node:node openclaw-config.sh common-config.sh install-homebrew.sh /home/node
-
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
-    NONINTERACTIVE=1 /bin/bash /home/node/install-homebrew.sh && \
+    NONINTERACTIVE=1 /bin/bash ./install-homebrew.sh && \
     /home/linuxbrew/.linuxbrew/bin/brew install gh gogcli && \
     rm -rf /home/linuxbrew/.linuxbrew/var/cache
+
+COPY --chmod=775 --chown=node:node openclaw-config.sh common-config.sh  /home/node
 
 RUN --mount=type=secret,id=clawhub_api_key,uid=1000 \
     --mount=type=cache,target=/home/node/.cache/pip,uid=1000,sharing=locked \
