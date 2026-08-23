@@ -59,4 +59,5 @@ gh_modules="aeon \
 
 install_github_modules /opt/hermes "$gh_key" "$gh_modules"
 install_cli_anything /opt/hermes
+hermes config set model.default openrouter/free
 

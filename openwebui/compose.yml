@@ -85,7 +85,7 @@ services:
       dockerfile: Dockerfile.hermes
       pull: true
     volumes:
-      - hermes-data:/opt/data
+      - hermes-agent-data:/opt/data
     ports:
       - 8642:8642
     environment:
@@ -152,7 +152,7 @@ services:
 
 volumes:
   open-webui:
-  hermes-data:
+  hermes-agent-data:
   core-data:
   valkey-data:
   openclaw-data:
