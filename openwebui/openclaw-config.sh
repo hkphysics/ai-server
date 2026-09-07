@@ -31,15 +31,16 @@ openclaw config set --batch-json '[
 {"path": "browser.noSandbox", "value": true},
 {"path": "browser.defaultProfile", "value": "openclaw"},
 {"path": "browser.executablePath", "value": "/usr/bin/chromium-headless-shell"},
-{"path": "agents.defaults.memorySearch.provider", "value": "local"},
 {"path": "tools.codeMode.enabled", "value": true},
-{"path": "plugins.allow", "value": ["llama-cpp", "searxng"] }
+{"path": "plugins.allow", "value": ["llama-cpp", "searxng"] },
+{"path": "tools.deny", "value": ["ask_user"]}
 ]'
+
+# turn off ask_user because of conflict with open_webui
 
 source $SCRIPT_DIR/common-config.sh
 
 modules=(
-    "@steipete/weather"
     "@gpyangyoujun/multi-search-engine"
     "@ivangdavila/word-docx"
     "@ivangdavila/powerpoint-pptx"
@@ -52,7 +53,6 @@ modules=(
     "@jaaneek/x-search"
     "@pskoett/self-improving-agent"
     "@strykragent/realtime-crypto-price-api"
-    "@steipete/goplaces"
     "@ivangdavila/baidu"
     "@ivangdavila/image"
     "@spclaudehome/skill-vetter"
@@ -78,7 +78,6 @@ gh_modules="aeon astropy citation-management fluidsim hugging-science matplotlib
 install_github_modules /app "$gh_key" "$gh_modules"
 install_cli_anything /app
 
-openclaw plugins install @openclaw/searxng-plugin
-openclaw plugins install @openclaw/llama-cpp-provider
-chmod o-w -R /home/node/.openclaw/npm/projects
+openclaw plugins install clawhub:@openclaw/searxng-plugin
+openclaw plugins install clawhub:@openclaw/llama-cpp-provider
 openclaw skills update --all
