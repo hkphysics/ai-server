@@ -13,8 +13,8 @@ oauthenticator
 #jupyter-ai-persona-manager
 #jupyter-ai-jupyternaut
 git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
-git+https://github.com/hkphysics/jupyter-ai-persona-manager@develop
-git+https://github.com/hkphysics/jupyterlab-ai-commands@develop
+jupyter-ai-persona-manager
+jupyterlab-ai-commands
 git+https://github.com/hkphysics/jai-personas-contrib
 jupyter-ai-magic-commands
 jupyter-ai-router
