@@ -9,19 +9,14 @@ oauthenticator
 
 # installing all jupyter-ai models will cause
 # a timeout on startup
-#jupyterlite-ai[jupyter]
-#jupyter-ai-persona-manager
-#jupyter-ai-jupyternaut
 git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
-jupyter-ai-persona-manager
+jupyter-ai
 jupyterlab-ai-commands
+jupyterlab-chat
 git+https://github.com/hkphysics/jai-personas-contrib
 jupyter-ai-magic-commands
-jupyter-ai-router
 jupyter-ai-tools
 jupyter-server-mcp
-# This can causes freezes
-jupyter-collaboration
 jupyterlab-code-formatter
 isort
 black
