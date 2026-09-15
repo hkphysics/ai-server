@@ -1,3 +1,12 @@
+tornado==6.5.8
+jupyter-ai
+git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
+git+https://github.com/hkphysics/jai-personas-contrib.git[all]
+bash_kernel
+zsh_jupyter_kernel
+oauthenticator
+jupyterlab-ai-commands
+
 git+https://github.com/hkphysics/jupyterlab-myst.git
 jupyterlab-diff
 jupyterlab-git
@@ -6,18 +15,6 @@ jupyterlab-spreadsheet-editor
 jupyter-archive
 jupytext
 oauthenticator
-
-# installing all jupyter-ai models will cause
-# a timeout on startup
-git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
-jupyter-ai
-jupyterlab-ai-commands
-jupyterlab-chat
-git+https://github.com/hkphysics/jai-personas-contrib
-jupyter-ai-magic-commands
-jupyter-ai-tools
-jupyter-server-mcp
-jupyterlab-code-formatter
 isort
 black
 mystmd
@@ -32,17 +29,7 @@ numba
 git+https://github.com/hkphysics/uniswappy.git
 nb-clean
 voila
-#tensorboard
-#jupyterlab-tensorboard-pro
 
-#langchain
-#langgraph
-#langsmith
-#langchain-ollama
-#langchain-openrouter
-#langclaw
-#langchain-community
-#deepagents
 dotenv
 nbstripout
 ipywidgets
