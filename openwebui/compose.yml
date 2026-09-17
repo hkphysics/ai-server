@@ -27,6 +27,8 @@ services:
       HERMES_AGENT_API_KEY: your-secure-key-fob!
       OPENCLAW_BASE_URL: ${OPENCLAW_BASE_URL:-http://openclaw:18789/v1}
       OPENCLAW_API_KEY: your-secure-key-fob!
+      OPENPIBOT_BASE_URL: ${OPENPIBOT_BASE_URL:-http://openpibot:11435/v1}
+      OPENPIBOT_API_KEY: your-secure-key-fob!
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jupyter.rule=Host(`compute.${DOMAIN-localhost}`)"
