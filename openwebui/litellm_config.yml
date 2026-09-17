@@ -1,4 +1,9 @@
 model_list:
+  - model_name: "pi-agent"
+    litellm_params:
+      model: "openai/pi-agent"
+      api_base: "http://openpibot:11435/v1"
+      api_key:  "your-secure-key-fob!"
   - model_name: "openclaw"
     litellm_params:
       model: "openai/openclaw"
