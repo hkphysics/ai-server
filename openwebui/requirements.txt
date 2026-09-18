@@ -1,7 +1,7 @@
 tornado==6.5.8
 jupyter-ai
 git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
-git+https://github.com/hkphysics/jai-personas-contrib.git[all]
+jai-personas-contrib[all] @ git+https://github.com/hkphysics/jai-personas-contrib.git
 bash_kernel
 zsh_jupyter_kernel
 oauthenticator
@@ -56,3 +56,4 @@ pillow
 reportlab
 pdfplumber
 pypdf
+
