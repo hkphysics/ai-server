@@ -12,6 +12,8 @@ services:
     <<: [*default-restart, *host-gateway]
     build:
       dockerfile: Dockerfile.jupyter
+    ports:
+      - 3002:8000
     volumes:
       - jupyter-data:/home
       - /mnt:/mnt
