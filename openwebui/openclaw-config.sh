@@ -17,7 +17,7 @@ openclaw config set --batch-json '[
 {"path": "models.providers.ollama", "value": {"baseUrl": "http://host.docker.internal:11434", "apiKey": "ollama-local", "api": "ollama", "models": [{"id": "gemma4", "name": "gemma4", "reasoning": false, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 128000, "maxTokens": 8192}]}},
 {"path": "agents.defaults", "value": {"model": {"primary": "openrouter/openrouter/free", "fallbacks": ["openrouter/openrouter/free"]}, "models": {"openrouter/openrouter/free": {}, "ollama/gemma4:latest": {}, "ollama/rnj-1:latest": {}, "ollama/qwen3.6:latest": {}, "ollama/translategemma:27b": {}, "ollama/glm-4.7-flash:latest": {}, "ollama/gpt-oss:latest": {}, "openrouter/google/gemma-4-26b-a4b-it:free": {}, "openrouter/google/gemma-4-31b-it:free": {}, "openrouter/qwen/qwen3-coder:free": {}, "openrouter/openai/gpt-oss-20b:free": {}, "openrouter/minimax/minimax-m2.5:free": {}}}, "workspace": "/home/node/.openclaw/workspace", "compaction": {"mode": "safeguard"}, "maxConcurrent": 4, "subagents": {"maxConcurrent": 8}, "thinkingDefault": "adaptive"},
 {"path": "env", "value": {"shellEnv": {"enabled": true, "timeoutMs": 5000}}},
-{"path": "plugins", "value": {"entries": {"openrouter": {"enabled": true}, "ollama": {"enabled": true}, "searxng": {"enabled": true, "config": {"webSearch": {"baseUrl": "http://searxng-core:8080"}}}}}},
+{"path": "plugins", "value": {"entries": {"browser": {"enabled": true}, "openrouter": {"enabled": true}, "ollama": {"enabled": true}, "searxng": {"enabled": true, "config": {"webSearch": {"baseUrl": "http://searxng-core:8080"}}}}}},
 {"path": "auth", "value": {"profiles": {"ollama:default": {"provider": "ollama", "mode": "api_key"}, "openrouter:default": {"provider": "openrouter", "mode": "api_key"}}}},
 {"path": "gateway.mode", "value": "local"},
 {"path": "gateway.http.endpoints.chatCompletions.enabled", "value": true},
@@ -32,7 +32,7 @@ openclaw config set --batch-json '[
 {"path": "browser.defaultProfile", "value": "openclaw"},
 {"path": "browser.executablePath", "value": "/usr/bin/chromium-headless-shell"},
 {"path": "tools.codeMode.enabled", "value": true},
-{"path": "plugins.allow", "value": ["llama-cpp", "searxng"] },
+{"path": "plugins.allow", "value": ["browser", "web-readability", "llama-cpp", "searxng"] },
 {"path": "tools.deny", "value": ["ask_user"]}
 ]'
 
