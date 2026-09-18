@@ -16,7 +16,7 @@ services:
       - 3002:8000
     volumes:
       - jupyter-data:/home
-      - /mnt:/mnt
+      - ${EXTERNAL_DIR-/mnt}:/mnt
       - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
     environment:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
@@ -161,12 +161,13 @@ services:
       context: https://github.com/kenschultz64/openpibot.git
       dockerfile: Dockerfile.pi-bridge
     volumes:
-      - openpibot-data:/workspace
-      - ~/.pi:/root/.pi # Optional: mount your local Pi config/auth if needed
-      - /mnt:/mnt
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ${EXTERNAL_DIR-/mnt}:/mnt
+      - ${EXTERNAL_DIR-/mnt}:/workspace
+      - openpibot-data:/home/node/.pi
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      PI_PROVIDER: ${PI_PROVIDER-openrouter}
+      PI_MODEL: ${PI_MODEL-openrouter/free}
 
 volumes:
   openwebui-data:
