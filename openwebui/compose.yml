@@ -158,7 +158,7 @@ services:
   openpibot:
     restart: unless-stopped
     build:
-      context: https://github.com/kenschultz64/openpibot.git
+      context: https://github.com/hkphysics/openpibot.git
       dockerfile: Dockerfile.pi-bridge
     volumes:
       - ${EXTERNAL_DIR-/mnt}:/mnt
