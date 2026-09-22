@@ -161,8 +161,7 @@ services:
       context: https://github.com/hkphysics/openpibot.git
       dockerfile: Dockerfile.pi-bridge
     volumes:
-      - ${EXTERNAL_DIR-/mnt}:/mnt
-      - ${EXTERNAL_DIR-/mnt}:/workspace
+      - ${PI_EXTERNAL_DIR-/mnt}:/workspace
       - openpibot-data:/home/node
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
