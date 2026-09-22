@@ -6,6 +6,8 @@ bash_kernel
 zsh_jupyter_kernel
 oauthenticator
 jupyterlab-ai-commands
+marimo[sandbox]>=0.23.14
+marimo-jupyter-extension
 
 git+https://github.com/hkphysics/jupyterlab-myst.git
 jupyterlab-diff
