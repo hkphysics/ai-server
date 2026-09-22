@@ -163,7 +163,7 @@ services:
     volumes:
       - ${EXTERNAL_DIR-/mnt}:/mnt
       - ${EXTERNAL_DIR-/mnt}:/workspace
-      - openpibot-data:/home/node/.pi
+      - openpibot-data:/home/node
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       PI_PROVIDER: ${PI_PROVIDER-openrouter}
