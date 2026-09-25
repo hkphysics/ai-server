@@ -27,11 +27,11 @@ services:
       ALLOWED_USERS: ${ALLOWED_USERS}
       LITELLM_BASE_URL: ${LITELLM_BASE_URL:-http://litellm:4000/}
       HERMES_AGENT_BASE_URL: ${HERMES_AGENT_BASE_URL:-http://hermes-agent:8642/v1}
-      HERMES_AGENT_API_KEY: your-secure-key-fob!
+      HERMES_AGENT_API_KEY: ${HERMES_AGENT_API_KEY:-your-secure-key-fob!}
       OPENCLAW_BASE_URL: ${OPENCLAW_BASE_URL:-http://openclaw:18789/v1}
-      OPENCLAW_API_KEY: your-secure-key-fob!
+      OPENCLAW_API_KEY: ${OPENCLAW_API_KEY:-your-secure-key-fob!}
       OPENPIBOT_BASE_URL: ${OPENPIBOT_BASE_URL:-http://openpibot:11435/v1}
-      OPENPIBOT_API_KEY: your-secure-key-fob!
+      OPENPIBOT_API_KEY: ${OPENPIBOT_API_KEY:-your-secure-key-fob!}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jupyter.rule=Host(`compute.${DOMAIN-localhost}`)"
@@ -51,13 +51,17 @@ services:
     ports:
       - 3000:8080
     environment:
-      GOOGLE_CLIENT_ID: ${OAUTH_CLIENT_ID}
-      GOOGLE_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
-      GOOGLE_DRIVE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-      GOOGLE_DRIVE_API_KEY: ${GOOGLE_DRIVE_API_KEY}
-      OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
+      ENABLE_OAUTH_SIGNUP: true
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      #OAUTH_SCOPES: ${OAUTH_SCOPES-read:user user:email}
+      #OAUTH_EMAIL_CLAIM: ${OAUTH_EMAIL_CLAIM-"email"}
+      #OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
       OPENAI_API_BASE_URL: http://litellm:4000/v1
+      WEBUI_URL: ${WEBUI_URL}
     pull_policy: always
     labels:
       - "traefik.enable=true"
@@ -74,7 +78,6 @@ services:
     <<: [*default-restart]
     image: cagataygurturk/docker-ssh-tunnel:latest
     volumes:
-      # Mount your local private SSH key (read-only)
       - ~/.ssh:/root/ssh:ro
     environment:
       LOCAL_PORT: 11434
