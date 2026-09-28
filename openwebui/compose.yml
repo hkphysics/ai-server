@@ -32,6 +32,7 @@ services:
       OPENCLAW_API_KEY: ${OPENCLAW_API_KEY:-your-secure-key-fob!}
       OPENPIBOT_BASE_URL: ${OPENPIBOT_BASE_URL:-http://openpibot:11435/v1}
       OPENPIBOT_API_KEY: ${OPENPIBOT_API_KEY:-your-secure-key-fob!}
+      OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jupyter.rule=Host(`compute.${DOMAIN-localhost}`)"
@@ -58,7 +59,7 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       #OAUTH_SCOPES: ${OAUTH_SCOPES-read:user user:email}
       #OAUTH_EMAIL_CLAIM: ${OAUTH_EMAIL_CLAIM-"email"}
-      #OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
+      OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
       OPENAI_API_BASE_URL: http://litellm:4000/v1
       WEBUI_URL: ${WEBUI_URL}
