@@ -43,10 +43,9 @@ RUN --mount=type=cache,target=/root/.npm,sharing=locked \
         @earendil-works/pi-coding-agent &&  \
     npm config set allow-scripts=bun,opencode-ai,sqlite3 --location=user
 
-RUN --mount=type=cache,target=/root/.cache,sharing=locked \
-    pip install --no-cache --upgrade pip uv && \
-    uv pip install --system --prerelease=allow jupyterhub -r requirements.txt && \
-    uv pip install --system torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
+RUN pip install --no-cache --upgrade pip uv && \
+    uv pip install --no-cache --system --prerelease=allow jupyterhub -r requirements.txt && \
+    uv pip install --no-cache --system torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
     python -m bash_kernel.install && \
     python -m zsh_jupyter_kernel.install
 

@@ -40,7 +40,8 @@ authenticator.oauth_callback_url = os.environ.get("OAUTH_CALLBACK_URL", "")
 authenticator.auto_login = True
 authenticator.add_user_cmd = ["/usr/sbin/jupyterhub-add-user"]
 authenticator.username_claim = "email"
-authenticator.scope = ["user:email"]
+if authenticator_class_env == "oauthenticator.github.LocalGitHubOAuthenticator":
+    authenticator.scope = ["user:email"]
 
 # --- Timeouts ---
 c.Cull.timeout = 21600
