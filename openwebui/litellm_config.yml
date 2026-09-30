@@ -78,3 +78,4 @@ model_list:
 
 litellm_settings:
   check_provider_endpoint: true
+  cancel_on_disconnect: true
