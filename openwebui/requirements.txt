@@ -1,5 +1,5 @@
-tornado==6.5.8
-jupyter-ai
+#tornado==6.5.8
+git+https://github.com/hkphysics/jupyter-ai
 git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
 git+https://github.com/hkphysics/jupyter-chat#subdirectory=python/jupyterlab-chat
 git+https://github.com/hkphysics/jupyter-ai-persona-manager
