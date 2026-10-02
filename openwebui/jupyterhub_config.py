@@ -46,7 +46,7 @@ if authenticator_class_env == "oauthenticator.github.LocalGitHubOAuthenticator":
 # --- Timeouts ---
 c.Cull.timeout = 21600
 c.Spawner.start_timeout = 120
-c.Spawner.http_timeout = 60
+c.Spawner.http_timeout = 120
 c.OutputProcessor.use_outputs_service = True
 
 openid_url = os.environ.get("OPENID_PROVIDER_URL")

@@ -1,6 +1,9 @@
 tornado==6.5.8
 jupyter-ai
 git+https://github.com/hkphysics/jupyter-ai-jupyternaut.git@develop
+git+https://github.com/hkphysics/jupyter-chat#subdirectory=python/jupyterlab-chat
+git+https://github.com/hkphysics/jupyter-ai-persona-manager
+
 jai-personas-contrib[all] @ git+https://github.com/hkphysics/jai-personas-contrib.git
 bash_kernel
 zsh_jupyter_kernel
