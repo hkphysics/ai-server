@@ -3,14 +3,8 @@ FROM nousresearch/hermes-agent:${HERMES_TAG}
 USER root
 ENV PYTHONDONTWRITEBYTECODE=1
 
-COPY --chmod=775 hermes-config.sh common-config.sh .
+COPY --chmod=775 install-hermes.sh common-config.sh .
 
-RUN --mount=type=tmpfs,destination=/tmp \
-    --mount=type=tmpfs,destination=/var/tmp \
-    --mount=type=cache,target=/var/cache,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    --mount=type=cache,target=/root/.npm,sharing=locked \
-    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
-    ./hermes-config.sh
+RUN ./install-hermes.sh
 
 USER hermes
