@@ -1,38 +1,28 @@
 ARG OPENCLAW_TAG=slim
+FROM ghcr.io/homebrew/brew:latest AS homebrew
 FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 
 USER root
 ENV PYTHONDONTWRITEBYTECODE=1
-
-COPY --chmod=775 nodesource.sh install-homebrew.sh .
+COPY nodesource.sh .
 
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
-    --mount=type=cache,target=/var/cache,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    --mount=type=cache,target=/home/node/.npm,uid=1000,sharing=locked \
     bash -E nodesource.sh && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential python3-requests python3-pip curl \
         chromium-headless-shell jq tmux ffmpeg unzip && \
-    mkdir -p /home/linuxbrew/.linuxbrew && \
-    chown node:node -R /home/linuxbrew && \
-    chmod -R u+rwX,go+rX,go-w /home/linuxbrew && \
     apt-get clean && \
-    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
+    rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED /var/cache/* /home/node/.npm /var/lib/apt/*
 
 USER node
 
-RUN --mount=type=tmpfs,destination=/tmp \
-    --mount=type=tmpfs,destination=/var/tmp \
-    NONINTERACTIVE=1 /bin/bash ./install-homebrew.sh && \
-    /home/linuxbrew/.linuxbrew/bin/brew install gh gogcli && \
-    rm -rf /home/linuxbrew/.linuxbrew/var/cache
+COPY --from=homebrew --chown=node:node /home/linuxbrew/.linuxbrew /home/linuxbrew/.linuxbrew
 
-COPY --chmod=775 --chown=node:node openclaw-config.sh common-config.sh  /home/node
+COPY --chmod=775 --chown=node:node install-openclaw.sh install-common.sh  /home/node
 
 RUN --mount=type=secret,id=clawhub_api_key,uid=1000 \
-    --mount=type=cache,target=/home/node/.cache/pip,uid=1000,sharing=locked \
+    --mount=type=cache,target=/home/node/.cache,uid=1000,sharing=locked \
     CLAWHUB_API_KEY=$(cat /run/secrets/clawhub_api_key) \
-    /home/node/openclaw-config.sh
+    /home/node/install-openclaw.sh

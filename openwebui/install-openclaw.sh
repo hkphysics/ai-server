@@ -8,10 +8,12 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 brew trust openclaw/tap steipete/tap
 brew install --force \
+     gh gogcli \
      openclaw/tap/goplaces steipete/tap/gifgrep \
      himalaya steipete/tap/spogo steipete/tap/songsee
 brew install --cask 1password-cli
 brew cleanup --prune=all
+rm -rf /home/linuxbrew/.linuxbrew/var/cache
 
 openclaw config set --batch-json '[
 {"path": "models.providers.ollama", "value": {"baseUrl": "http://host.docker.internal:11434", "apiKey": "ollama-local", "api": "ollama", "models": [{"id": "gemma4", "name": "gemma4", "reasoning": false, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 128000, "maxTokens": 8192}]}},
@@ -38,7 +40,7 @@ openclaw config set --batch-json '[
 
 # turn off ask_user because of conflict with open_webui
 
-source $SCRIPT_DIR/common-config.sh
+source $SCRIPT_DIR/install-common.sh
 
 modules=(
     "@gpyangyoujun/multi-search-engine"
@@ -76,8 +78,7 @@ gh_key="K-Dense-AI/scientific-agent-skills"
 gh_modules="aeon astropy citation-management fluidsim hugging-science matplotlib markitdown pyzotero scientific-brainstorming scientific-critical-thinking scientific-visualization seaborn simpy statsmodels sympy"
 
 install_github_modules /app "$gh_key" "$gh_modules"
-install_cli_anything /app
-
-openclaw plugins install clawhub:@openclaw/searxng-plugin
-openclaw plugins install clawhub:@openclaw/llama-cpp-provider
 openclaw skills update --all
+openclaw plugins install clawhub:@openclaw/searxng-plugin
+#openclaw plugins install clawhub:@openclaw/llama-cpp-provider
+
