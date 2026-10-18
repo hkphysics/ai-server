@@ -158,12 +158,13 @@ services:
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       POE_API_KEY: ${POE_API_KEY}
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-your-secure-key-fob!}
     command: [ "--config", "/app/config.yml", "--port", "4000" ]
 
   openpibot:
     restart: unless-stopped
     build:
-      context: https://github.com/hkphysics/openpibot.git
+      context: https://github.com/hkphysics/openpibot.git#develop
       dockerfile: Dockerfile.pi-bridge
     volumes:
       - ${PI_EXTERNAL_DIR-/mnt}:/workspace
