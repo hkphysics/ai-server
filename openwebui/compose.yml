@@ -8,6 +8,32 @@ x-extra-hosts:
     - host.docker.internal:host-gateway
 
 services:
+  traefik:
+    image: traefik:latest
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "80:80"      # HTTP entrypoint
+      - "443:443"    # HTTPS entrypoint
+    env_file:
+      - .env
+    volumes:
+      # Mount the Docker socket as read-only for automatic service discovery
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Volume to persist Let's Encrypt certificates
+      - ./letsencrypt:/letsencrypt
+      # Mount the static traefik.yml configuration file
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        if [ "${SKIP_TRAEFIK:-false}" = "true" ]; then
+          echo "Traefik skipped (SKIP_TRAEFIK=true)"; exit 0
+        fi
+        exec /entrypoint.sh traefik
+    labels:
+      # Securely route Traefik Dashboard over HTTPS
+      - "traefik.enable=true"
   jupyter:
     <<: [*default-restart, *host-gateway]
     build:
@@ -39,16 +65,13 @@ services:
       - "traefik.http.routers.jupyter.entrypoints=websecure"
       - "traefik.http.routers.jupyter.tls=true"
       - "traefik.http.routers.jupyter.tls.certresolver=myresolver"
-      - "traefik.docker.network=proxy-network"
-    networks:
-      - default
-      - proxy-network
 
   openwebui:
     <<: [*default-restart, *host-gateway]
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-slim}
     volumes:
       - openwebui-data:/app/backend/data
+      - ./mnt:/mnt
     ports:
       - 3000:8080
     environment:
@@ -70,11 +93,6 @@ services:
       - "traefik.http.routers.ai.entrypoints=websecure"
       - "traefik.http.routers.ai.tls=true"
       - "traefik.http.routers.ai.tls.certresolver=myresolver"
-      - "traefik.docker.network=proxy-network"
-    networks:
-      - default
-      - proxy-network
-
   ollama:
     <<: [*default-restart]
     image: cagataygurturk/docker-ssh-tunnel:latest
@@ -188,8 +206,3 @@ volumes:
 secrets:
   clawhub_api_key:
     environment: "CLAWHUB_API_KEY"
-
-networks:
-   proxy-network:
-     name: proxy-network
-
