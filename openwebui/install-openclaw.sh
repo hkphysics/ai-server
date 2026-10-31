@@ -60,7 +60,6 @@ modules=(
     "@spclaudehome/skill-vetter"
     "@whyhit2005/zhipu-web-search"
     "@baidu-maps/baidu-ai-map"
-    "@ricardodpalmeida/annas-archive"
     "@terwox/zotero"
 )
 

@@ -3,7 +3,7 @@ FROM nousresearch/hermes-agent:${HERMES_TAG}
 USER root
 ENV PYTHONDONTWRITEBYTECODE=1
 
-COPY --chmod=775 install-hermes.sh common-config.sh .
+COPY --chmod=775 install-hermes.sh install-common.sh .
 
 RUN ./install-hermes.sh
 
