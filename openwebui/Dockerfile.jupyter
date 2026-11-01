@@ -41,14 +41,17 @@ RUN npm install -g pnpm@latest && \
         bash-language-server dockerfile-language-server-nodejs pyright \
         sql-language-server typescript-language-server unified-language-server \
         yaml-language-server bun pi-acp \
-        @earendil-works/pi-coding-agent
+        @earendil-works/pi-coding-agent && \
+    rm -rf /root/.cache && \
+    pnpm store prune
 #    pnpm config set allow-scripts=bun,opencode-ai,sqlite3 --location=global
 
 RUN pip install --no-cache --upgrade pip uv && \
     uv pip install --no-cache --system --prerelease=allow jupyterhub -r requirements.txt && \
     uv pip install --no-cache --system torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
     python -m bash_kernel.install && \
-    python -m zsh_jupyter_kernel.install
+    python -m zsh_jupyter_kernel.install && \
+    rm -rf /root/.cache/pip /tmp/*
 
 COPY --from=ghcr.io/typst/typst:latest /bin/typst /usr/bin/typst
 

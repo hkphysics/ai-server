@@ -59,6 +59,7 @@ install_github_modules /opt/hermes "$gh_key" "$gh_modules"
 cd /tmp
 git clone --progress --single-branch --depth 1 https://github.com/HKUDS/CLI-Anything.git
 bash /tmp/CLI-Anything/hermes-skill/scripts/install.sh
+rm -rf /tmp/CLI-Anything /root/.npm /root/.cache/pip /opt/hermes/skills/*/node_modules 2>/dev/null || true
 
 #install_cli_anything /opt/hermes
 hermes config set model.default openrouter/free
