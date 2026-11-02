@@ -51,7 +51,7 @@ RUN pip install --no-cache --upgrade pip uv && \
     uv pip install --no-cache --system torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
     python -m bash_kernel.install && \
     python -m zsh_jupyter_kernel.install && \
-    rm -rf /root/.cache/pip /tmp/*
+    rm -rf /root/.cache/pip /tmp/* && chmod -R go+rX /root
 
 COPY --from=ghcr.io/typst/typst:latest /bin/typst /usr/bin/typst
 
