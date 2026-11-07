@@ -51,3 +51,38 @@ c.OutputProcessor.use_outputs_service = True
 
 openid_url = os.environ.get("OPENID_PROVIDER_URL")
 c.JupyterHub.openid_connect_url = openid_url
+
+# MCP Server
+c.MCPExtensionApp.mcp_tools = [
+    # File system operations (jupyter-ai-tools)
+    "jupyter_ai_tools.toolkits.file_system:read",
+    "jupyter_ai_tools.toolkits.file_system:write", 
+    "jupyter_ai_tools.toolkits.file_system:edit",
+    "jupyter_ai_tools.toolkits.file_system:ls",
+    "jupyter_ai_tools.toolkits.file_system:glob",
+    
+    # Notebook operations (jupyter-ai-tools)
+    "jupyter_ai_tools.toolkits.notebook:read_notebook",
+    "jupyter_ai_tools.toolkits.notebook:edit_cell",
+    "jupyter_ai_tools.toolkits.notebook:add_cell", 
+    "jupyter_ai_tools.toolkits.notebook:delete_cell",
+    "jupyter_ai_tools.toolkits.notebook:create_notebook",
+    
+    # Git operations (jupyter-ai-tools)
+    "jupyter_ai_tools.toolkits.git:git_status",
+    "jupyter_ai_tools.toolkits.git:git_add",
+    "jupyter_ai_tools.toolkits.git:git_commit",
+    "jupyter_ai_tools.toolkits.git:git_push",
+    
+    # JupyterLab operations (jupyterlab-commands-toolkit)
+    "jupyterlab_commands_toolkit.tools:clear_all_outputs_in_notebook",
+    "jupyterlab_commands_toolkit.tools:open_document",
+    "jupyterlab_commands_toolkit.tools:open_markdown_file_in_preview_mode",
+    "jupyterlab_commands_toolkit.tools:show_diff_of_current_notebook",
+    
+    # Utility functions  
+    "os:getcwd",
+    "json:dumps",
+    "time:time",
+    "platform:system",
+]

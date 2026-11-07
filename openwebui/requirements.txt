@@ -9,6 +9,10 @@ bash_kernel
 zsh_jupyter_kernel
 oauthenticator
 jupyterlab-ai-commands
+# Jupyter AI MCP framework (jupyter-ai-contrib)
+jupyter-server-mcp
+jupyter-mcp-manager
+jupyter-ai-tools
 marimo[sandbox]>=0.23.14
 marimo-jupyter-extension
 marpyter

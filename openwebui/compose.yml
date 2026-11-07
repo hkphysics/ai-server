@@ -190,7 +190,7 @@ services:
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       PI_PROVIDER: ${PI_PROVIDER-openrouter}
-      PI_TOOLS: ${PI_TOOLS-read,bash,edit,write,grep,find,ls,web_search,web_fetch}
+      PI_TOOLS: ${PI_TOOLS-read,bash,edit,write,grep,find,ls,web_search,web_fetch,mcp}
       PI_MODEL: ${PI_MODEL-openrouter/free}
       PI_SHOW_REASONING: ${PI_SHOW_REASONING-true}
 
