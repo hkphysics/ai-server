@@ -6,7 +6,7 @@ USER root
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1
 
-COPY --chmod=775 nodesource.sh .
+COPY nodesource.sh requirements.txt .
 
 RUN --mount=type=tmpfs,destination=/tmp \
     --mount=type=tmpfs,destination=/var/tmp \
@@ -33,8 +33,6 @@ RUN --mount=type=tmpfs,destination=/tmp \
     rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED && \
     find /usr/share/doc /usr/share/man -type f -delete
 
-COPY requirements.txt .
-
 RUN npm install -g pnpm@latest && \
     pnpm config set global-bin-dir /usr/bin && \
     pnpm install -g configurable-http-proxy@^4.2.0 opencode-ai \
@@ -43,15 +41,17 @@ RUN npm install -g pnpm@latest && \
         yaml-language-server bun pi-acp \
         @earendil-works/pi-coding-agent && \
     rm -rf /root/.cache && \
-    pnpm store prune
+    pnpm store prune && chmod go+rX /root
 #    pnpm config set allow-scripts=bun,opencode-ai,sqlite3 --location=global
 
 RUN pip install --no-cache --upgrade pip uv && \
     uv pip install --no-cache --system --prerelease=allow jupyterhub -r requirements.txt && \
-    uv pip install --no-cache --system torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
     python -m bash_kernel.install && \
     python -m zsh_jupyter_kernel.install && \
-    rm -rf /root/.cache/pip /tmp/* && chmod -R go+rX /root
+    rm -rf /root/.cache/pip /tmp/* 
+
+# add if you want torch
+#    uv pip install --no-cache --system torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
 COPY --from=ghcr.io/typst/typst:latest /bin/typst /usr/bin/typst
 

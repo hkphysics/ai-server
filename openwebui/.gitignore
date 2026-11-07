@@ -3,3 +3,4 @@
 
 # Exclude data directory
 openclaw-data/
+letsencrypt/

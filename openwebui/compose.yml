@@ -38,6 +38,7 @@ services:
     <<: [*default-restart, *host-gateway]
     build:
       dockerfile: Dockerfile.jupyter
+      pull: true
     ports:
       - 3002:8000
     volumes:
