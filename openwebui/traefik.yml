@@ -10,12 +10,15 @@ entryPoints:
   web:
     address: ":80"
     http:
+      aliasHeadersStrategy: delete
       redirections:
         entryPoint:
           to: websecure
           scheme: https
   websecure:
     address: ":443"
+    http:
+      aliasHeadersStrategy: delete
 
 providers:
   docker:

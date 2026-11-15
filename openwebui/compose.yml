@@ -4,12 +4,24 @@ x-common:
 
 x-extra-hosts:
   &host-gateway
+
+# --- Traefik proxy toggle (COMPOSE_PROFILES) -----------------------------
+# compose.yml now profile-gates the traefik service:  profiles: [traefik].
+# Compose only starts traefik — and only binds ports 80/443 — when the
+# "traefik" profile is active. Flip the default by editing this one line:
+#
+#   traefik OFF (let another proxy own 80/443) -> COMPOSE_PROFILES=
+#   traefik ON  (traefik owns 80/443)          -> COMPOSE_PROFILES=traefik
+#
+# The --profile flag on the CLI is added on top of this value.
   extra_hosts:
     - host.docker.internal:host-gateway
 
 services:
   traefik:
     image: traefik:latest
+    profiles:
+      - traefik
     security_opt:
       - no-new-privileges:true
     ports:
@@ -24,16 +36,12 @@ services:
       - ./letsencrypt:/letsencrypt
       # Mount the static traefik.yml configuration file
       - ./traefik.yml:/etc/traefik/traefik.yml:ro
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        if [ "${SKIP_TRAEFIK:-false}" = "true" ]; then
-          echo "Traefik skipped (SKIP_TRAEFIK=true)"; exit 0
-        fi
-        exec /entrypoint.sh traefik
     labels:
       # Securely route Traefik Dashboard over HTTPS
       - "traefik.enable=true"
+    command:
+      - "--entrypoints.web.aliasheadersstrategy=delete" # Add for HTTP
+      - "--entrypoints.websecure.aliasheadersstrategy=delete" # Add for HTTPS
   jupyter:
     <<: [*default-restart, *host-gateway]
     build:
